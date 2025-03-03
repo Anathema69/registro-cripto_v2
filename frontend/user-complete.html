@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Completar Datos - Registro Cripto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-light">
+<script>
+    // Verificar autenticación y que el rol no sea admin
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (!token) window.location.href = 'index.html';
+    if (role === 'admin') window.location.href = 'admin-panel.html';
+</script>
+<div class="container">
+    <div class="row justify-content-end pt-3">
+        <div class="col-auto">
+            <button id="logoutBtn" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button>
+        </div>
+    </div>
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Completa tus Datos</h3>
+                    <form id="userCompleteForm">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Nombres Completos</label>
+                            <input type="text" class="form-control" id="fullName" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accountNumber" class="form-label">Número de Cuenta</label>
+                            <input type="number" class="form-control" id="accountNumber" placeholder="Número de cuenta" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Guardar Datos</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Toast para notificar actualización -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="updateToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div id="updateToastBody" class="toast-body"></div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
+        window.location.href = 'index.html';
+    });
+
+    document.getElementById('userCompleteForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const fullName = document.getElementById('fullName').value;
+        const accountNumber = document.getElementById('accountNumber').value;
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            alert('Error: No se encontró el ID del usuario. Por favor, inicia sesión nuevamente.');
+            return;
+        }
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5000/api/user/update/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ fullName, accountNumber })
+            });
+            const data = await response.json();
+            const toastBody = document.getElementById('updateToastBody');
+            if (response.ok) {
+                toastBody.textContent = data.message;
+                document.getElementById('userCompleteForm').reset();
+                document.getElementById('updateToast').classList.remove('text-bg-danger');
+                document.getElementById('updateToast').classList.add('text-bg-success');
+            } else {
+                toastBody.textContent = data.message;
+                document.getElementById('updateToast').classList.remove('text-bg-success');
+                document.getElementById('updateToast').classList.add('text-bg-danger');
+            }
+            const toastEl = document.getElementById('updateToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        } catch (error) {
+            console.error('Error en la petición PUT:', error);
+            const toastBody = document.getElementById('updateToastBody');
+            toastBody.textContent = 'No se pudo actualizar los datos';
+            document.getElementById('updateToast').classList.remove('text-bg-success');
+            document.getElementById('updateToast').classList.add('text-bg-danger');
+            const toastEl = document.getElementById('updateToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
