@@ -1,0 +1,252 @@
+/* RESET / BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F0F8F5;
+    color: #333;
+    position: relative; /* Para ubicar círculos absolutos */
+    min-height: 100vh;
+    overflow-x: hidden; /* Evita scroll horizontal si los círculos sobresalen */
+}
+
+/* CÍRCULOS DE FONDO */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.15; /* un poco de transparencia */
+    background: #2DA59E;
+}
+.circle1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    left: -100px;
+}
+.circle2 {
+    width: 250px;
+    height: 250px;
+    top: 400px;
+    right: -125px;
+}
+.circle3 {
+    width: 350px;
+    height: 350px;
+    bottom: -150px;
+    left: 40%;
+    transform: translateX(-50%);
+}
+
+/* SECCIÓN FORMULARIO */
+.form-section {
+    display: flex;
+    flex-wrap: nowrap; /* Por defecto, horizontales en desktop */
+    max-width: 1200px;
+    margin: 2rem auto;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.form-container {
+    background-color: #fff;
+    width: 350px; /* tamaño un poco más compacto */
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    padding: 1.5rem; /* reducido el padding para menos espacio vacío */
+}
+
+/* TABS */
+.form-tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    justify-content: center; /* centrar los tabs */
+}
+
+.form-tabs button {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    background-color: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s;
+    font-size: 1rem;
+}
+
+.form-tabs button:hover {
+    color: #2DA59E;
+}
+
+.active-tab {
+    border-bottom: 2px solid #2DA59E;
+    color: #2DA59E;
+    cursor: default;
+}
+
+/* FORMULARIOS */
+.login-form,
+.signup-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-group .icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.input-group .icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* espacio para el ícono */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #2DA59E;
+}
+
+.btn-primary {
+    background-color: #2DA59E;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 0.5rem; /* pequeño espacio arriba del botón */
+    align-self: center; /* centra el botón en el contenedor */
+    width: 50%; /* ancho opcional, ajusta a tu gusto */
+    max-width: 200px; /* tope de ancho */
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #248C88;
+}
+
+/* ILUSTRACIÓN (laptop más grande) */
+.illustration-container {
+    max-width: 500px; /* Ajusta según tu preferencia */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration-container img {
+    width: 100%;
+    max-width: 400px; /* Ajusta para controlar el tamaño */
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* ===================================== */
+/*         RESPONSIVIDAD                 */
+/* ===================================== */
+
+/* Para pantallas de tamaño medio, por debajo de 1024px */
+@media (max-width: 1024px) {
+    .form-section {
+        gap: 1rem;
+    }
+    .illustration-container {
+        max-width: 400px;
+    }
+    .illustration-container img {
+        max-width: 300px;
+    }
+}
+
+/* Para pantallas de tamaño tablet y phones horizontales (≤ 768px) */
+@media (max-width: 768px) {
+    .form-section {
+        flex-wrap: wrap; /* ahora si no cabe, coloca el form arriba y la ilustración abajo */
+        gap: 1rem;
+    }
+    .form-container {
+        width: 300px;
+        margin: 0 auto; /* centramos la tarjeta */
+    }
+    .btn-primary {
+        width: 60%; /* ajusta un poco más el ancho del botón */
+    }
+    .illustration-container {
+        order: 1; /* pone la ilustración debajo o encima, según quieras */
+        margin-bottom: 1rem;
+    }
+}
+
+/* Para pantallas de móvil en vertical (≤ 480px) */
+@media (max-width: 480px) {
+    .form-container {
+        width: 90%; /* que ocupe casi todo el ancho */
+        padding: 1rem;
+    }
+
+    .btn-primary {
+        width: 80%;
+        max-width: none; /* el botón puede crecer al 80% del contenedor */
+    }
+
+    /* Puedes incluso ocultar la ilustración si quieres maximizar espacio */
+    .illustration-container {
+        display: none;
+    }
+
+    /* Ajusta los círculos si estorban */
+    .circle1,
+    .circle2,
+    .circle3 {
+        opacity: 0.1; /* más suave */
+    }
+}
+
+/* Para dispositivos con poca altura (horizontal phone) */
+@media screen and (max-height: 400px) {
+    .form-container {
+        padding: 0.5rem;
+    }
+    .btn-primary {
+        width: 100%;
+    }
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.5s;
+    border: 2px solid #dc3545; /* borde rojo temporal */
+}
+

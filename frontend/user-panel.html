@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario</title>
+    <link rel="stylesheet" href="styles/user-panel.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+</head>
+<body>
+<div class="user-container">
+    <aside class="user-sidebar">
+        <h2>Panel de Usuario</h2>
+        <nav>
+            <ul>
+                <li>
+                    <button class="active" id="btnDatos">
+                        <img src="icon/panel_new_user.png" class="sidebar-icon" alt="Datos complementarios">
+                        Datos complementarios
+                    </button>
+                </li>
+                <li>
+                    <button id="btnOperaciones">
+                        <img src="icon/panel_download.png" class="sidebar-icon" alt="Registrar operaciones">
+                        Registrar operaciones
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="user-content">
+        <header class="user-header">
+            <h1>Bienvenido: <span id="userName"></span></h1>
+            <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+        </header>
+        <section class="user-section">
+            <h2>Datos Complementarios</h2>
+            <form class="user-form" id="datosForm">
+                <div class="input-group">
+                    <span class="icon"><img src="icon/user.png" alt="User icon"></span>
+                    <input type="text" id="fullName" placeholder="Nombre completo" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><img src="icon/phone.png" alt="Teléfono icon"></span>
+                    <input type="tel" id="telefono" placeholder="Teléfono" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><img src="icon/settings_new_user.png" alt="Moneda icon"></span>
+                    <select id="moneda" class="styled-select" required>
+                        <option value="">Selecciona tu moneda</option>
+                        <option value="MXN">Peso Mexicano (MXN)</option>
+                        <option value="USD">Dólar Estadounidense (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="icon"><img src="icon/pass.png" alt="Cuenta icon"></span>
+                    <input type="text" id="accountNumber" placeholder="Número de cuenta" required>
+                </div>
+                <button type="submit" class="btn-primary">Actualizar datos</button>
+            </form>
+        </section>
+    </main>
+</div>
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <p>Actualizando datos...</p>
+</div>
+<div id="toast" class="toast" style="display: none;"></div>
+<script src="js/user-panel.js"></script>
+</body>
+</html>

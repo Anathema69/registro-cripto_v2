@@ -1,0 +1,257 @@
+/* RESET / BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F0F8F5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.user-container {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.user-sidebar {
+    width: 250px;
+    background-color: #2DA59E;
+    padding: 1rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-sidebar h2 {
+    margin-bottom: 1rem;
+}
+
+.user-sidebar nav ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.user-sidebar nav ul li {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+/* Botones del sidebar */
+.user-sidebar button {
+    display: flex; /* Para alinear ícono y texto */
+    align-items: center;
+    gap: 0.5rem; /* Espacio entre ícono y texto */
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.user-sidebar button:hover,
+.user-sidebar .active {
+    background: #248C88;
+}
+
+/* CONTENIDO PRINCIPAL */
+.user-content {
+    flex-grow: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    position: relative;
+}
+
+/* Encabezado superior */
+.user-header {
+    width: 100%;
+    max-width: 900px; /* para que no se extienda demasiado */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFF;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+/* Botón logout */
+.btn-logout {
+    background-color: #FF5252;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Sección y formulario centrado/flotante */
+.user-section {
+    width: 100%;
+    max-width: 900px; /* limita el ancho total */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-section h2 {
+    margin-bottom: 0.5rem;
+}
+
+.user-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%; /* que se adapte */
+    margin-top: 1rem;
+}
+
+/* Inputs e íconos */
+.input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-group .icon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+}
+
+.input-group .icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.input-group input,
+.styled-select {
+    width: 100%;
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* espacio para el ícono */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.styled-select {
+    appearance: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* BOTÓN */
+.btn-primary {
+    background-color: #2DA59E;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: #248C88;
+}
+
+/* OVERLAY DE CARGA */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #2DA59E;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* TOAST DE NOTIFICACIÓN */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #2DA59E;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+.show-toast {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsividad general */
+@media (max-width: 768px) {
+    .user-container {
+        flex-direction: column;
+        height: auto;
+    }
+    .user-sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .user-header {
+        margin-bottom: 1rem;
+    }
+    .user-form {
+        margin-top: 0.5rem;
+    }
+}

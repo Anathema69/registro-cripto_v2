@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Operaciones</title>
+  <link rel="stylesheet" href="styles/user-operations.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+</head>
+<body>
+<div class="operations-container">
+  <aside class="sidebar">
+    <h2>Panel de Usuario</h2>
+    <nav>
+      <ul>
+        <li>
+          <button onclick="window.location.href='user-panel.html'">
+            <img src="icon/panel_new_user.png" alt="Datos complementarios" class="sidebar-icon">
+            Datos complementarios
+          </button>
+        </li>
+        <li>
+          <button class="active">
+            <img src="icon/panel_download.png" alt="Registrar operaciones" class="sidebar-icon">
+            Registrar operaciones
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="operations-content">
+    <header class="admin-header">
+      <h1>Bienvenido: <span id="userName"></span></h1>
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </header>
+    <section class="operations-section">
+      <h2>Registrar Operaciones</h2>
+      <form class="operations-form" id="operationsForm">
+        <div class="input-group">
+          <span class="icon"><img src="icon/pass.png" alt="Monto icon"></span>
+          <input type="number" step="0.01" id="monto" placeholder="Monto de la operación" required>
+        </div>
+        <div class="input-group">
+          <span class="icon"><img src="icon/user.png" alt="Plataforma icon"></span>
+          <input type="text" id="plataforma" placeholder="Plataforma (ej. PayPal, Stripe, etc.)" required>
+        </div>
+        <div class="input-group">
+          <span class="icon"><img src="icon/settings_new_user.png" alt="Fecha icon"></span>
+          <input type="date" id="fecha" required>
+        </div>
+        <button type="submit" class="btn-primary">Registrar</button>
+      </form>
+    </section>
+  </main>
+</div>
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+  <div class="spinner"></div>
+  <p>Registrando operación...</p>
+</div>
+<div id="toast" class="toast" style="display: none;"></div>
+<script src="js/user-operations.js"></script>
+</body>
+</html>
