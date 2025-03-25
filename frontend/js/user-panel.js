@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
+    console.log("Token recuperado:", token);
     const role = localStorage.getItem('role');
     if (!token || role !== 'user') {
         window.location.href = 'index.html';
+        return;
     }
     const fullName = localStorage.getItem('fullName') || 'Usuario';
     document.getElementById('userName').textContent = fullName;
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
+    // Función para mostrar toast (verde si success, rojo si error)
     const toast = document.getElementById('toast');
     function showToast(message, success = true) {
         toast.textContent = message;
@@ -34,15 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const datosForm = document.getElementById('datosForm');
     const loadingOverlay = document.getElementById('loadingOverlay');
+
     datosForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        // Se obtienen los valores ingresados
         const fullNameInput = document.getElementById('fullName').value;
         const telefono = document.getElementById('telefono').value;
         const moneda = document.getElementById('moneda').value;
         const accountNumber = document.getElementById('accountNumber').value;
         const userId = localStorage.getItem('userId');
         if (!userId || !token) {
-            alert('Sesión no válida. Por favor, inicia sesión nuevamente.');
+            showToast('Sesión no válida. Por favor, inicia sesión nuevamente.', false);
+            window.location.href = 'index.html';
             return;
         }
         loadingOverlay.style.display = 'flex';
@@ -53,11 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                // En este ejemplo, actualizamos también el fullName
+                // Se envían todos los datos, incluido fullName
                 body: JSON.stringify({ fullName: fullNameInput, telefono, accountNumber, moneda })
             });
             const data = await response.json();
             loadingOverlay.style.display = 'none';
+            // Si response.ok es false, se mostrará el toast en color rojo
             showToast(data.message, response.ok);
             if(response.ok) {
                 datosForm.reset();

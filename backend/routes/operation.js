@@ -4,36 +4,82 @@ const authMiddleware = require('../middleware/auth');
 const Operation = require('../models/Operation');
 const User = require('../models/User');
 
-// backend/routes/operation.js
 router.post('/register', authMiddleware, async (req, res) => {
-    // Verificar que req.user esté definido
-    if (!req.user || !req.user.id) {
-        return res.status(401).json({ message: 'Token inválido o no proporcionado' });
+    console.log("Llegó petición a /api/operation/register", req.body);
+    const {
+        canal,
+        plataforma,
+        ordenNum,
+        tipoActivo,
+        activo,
+        moneda,
+        monto,
+        cantidad,
+        total,
+        comision,
+        titularNombre,
+        titularTipoID,
+        titularDocumento,
+        titularDireccion,
+        terceroNombre,
+        terceroTipoID,
+        terceroDocumento,
+        cuentaOrigen,
+        cuentaDestino,
+        referenciaPago,
+        estadoPago,
+        fecha
+    } = req.body;
+
+    // Verifica que existan los campos
+    if (!canal || !plataforma || !ordenNum || !tipoActivo || !activo || !moneda ||
+        monto == null || cantidad == null || total == null || comision == null ||
+        !titularNombre || !titularTipoID || !titularDocumento || !titularDireccion ||
+        !terceroNombre || !terceroTipoID || !terceroDocumento ||
+        !cuentaOrigen || !cuentaDestino || !referenciaPago || !estadoPago || !fecha
+    ) {
+        return res.status(400).json({ message: 'Faltan datos para registrar la operación' });
     }
-    const { monto, plataforma, fecha } = req.body;
-    if (monto == null || !plataforma || !fecha) {
-        return res.status(400).json({ message: 'Faltan datos: se requieren monto, plataforma y fecha' });
-    }
+
     try {
-        const user = await User.findById(req.user.id);
+        const userId = req.user.id;
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
-        const tipoMoneda = user.moneda || '';
-        const operation = new Operation({
-            userId: req.user.id,
-            monto,
+
+        const newOperation = new Operation({
+            userId,
+            canal,
             plataforma,
-            fecha,
-            tipoMoneda
+            ordenNum,
+            tipoActivo,
+            activo,
+            moneda,
+            monto,
+            cantidad,
+            total,
+            comision,
+            titularNombre,
+            titularTipoID,
+            titularDocumento,
+            titularDireccion,
+            terceroNombre,
+            terceroTipoID,
+            terceroDocumento,
+            cuentaOrigen,
+            cuentaDestino,
+            referenciaPago,
+            estadoPago,
+            fecha: new Date(fecha) // parsear a tipo Date
         });
-        await operation.save();
-        res.json({ message: 'Operación registrada correctamente', operation });
+
+        await newOperation.save();
+        return res.json({ message: 'Operación registrada correctamente' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al registrar la operación' });
+        return res.status(500).json({ message: 'Error al registrar la operación' });
     }
 });
-
 
 module.exports = router;
