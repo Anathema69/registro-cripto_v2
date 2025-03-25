@@ -1,3 +1,6 @@
+/************************************************
+ * server.js
+ ************************************************/
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -10,17 +13,31 @@ connectDB();
 
 const app = express();
 
+// Para evitar logs de archivos estáticos (js, css, icon, imágenes, etc.)
+app.use(morgan('dev', {
+    skip: (req, res) => {
+        // Si la URL coincide con estos patrones, no se loggea
+        return (
+            req.url.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|map)$/i) ||
+            req.url.includes('/icon/')
+        );
+    }
+}));
+
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
 
+// Servir estáticos desde 'frontend'
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Rutas de la API
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/user', require('./routes/user'));
+// Ajusta el nombre si tu archivo se llama user-panel.js
+app.use('/api/user', require('./routes/user-panel'));
 app.use('/api/admin', require('./routes/admin'));
-app.use('/api/operation', require('./routes/operation'));
+app.use('/api/operation', require('./routes/user-operation'));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+});

@@ -5,22 +5,24 @@
     box-sizing: border-box;
 }
 
-body {
+/* Para no tener scroll en toda la página */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* quita scroll global */
     font-family: 'Inter', sans-serif;
     background-color: #F0F8F5;
     color: #333;
-    min-height: 100vh;
 }
 
-/* CONTENEDOR PRINCIPAL */
-.operations-container {
+/* Contenedor principal: barra lateral + contenido */
+.container {
     display: flex;
-    min-height: 100vh; /* Permite scroll vertical */
-    position: relative;
-    overflow: visible;
+    width: 100%;
+    height: 100%;
 }
 
-/* SIDEBAR */
+/* BARRA LATERAL (fija) */
 .sidebar {
     width: 250px;
     background-color: #2DA59E;
@@ -29,6 +31,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Fijarla para que no se mueva al hacer scroll */
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
 }
 
 .sidebar h2 {
@@ -38,7 +45,6 @@ body {
 .sidebar nav ul {
     list-style: none;
     width: 100%;
-    padding: 0;
 }
 
 .sidebar nav ul li {
@@ -46,7 +52,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Botones del sidebar */
 .sidebar button {
     display: flex;
     align-items: center;
@@ -62,40 +67,41 @@ body {
     transition: background 0.3s;
 }
 
-.sidebar button:hover,
-.sidebar .active {
-    background: #248C88;
-}
-
 .sidebar-icon {
     width: 24px;
     height: 24px;
     object-fit: contain;
 }
 
-/* CONTENIDO PRINCIPAL */
-.operations-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1rem;
-    position: relative;
-    overflow-y: auto; /* Permite scroll vertical en pantallas pequeñas */
+.sidebar button:hover,
+.sidebar .active {
+    background: #248C88;
 }
 
-/* ENCABEZADO SUPERIOR */
+/* CONTENIDO PRINCIPAL */
+.main-content {
+    margin-left: 250px; /* deja espacio para la sidebar fija */
+    width: calc(100% - 250px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER (fijo arriba) */
 .admin-header {
-    width: 100%;
-    max-width: 900px;
+    flex: 0 0 auto;
+    height: 60px;
+    background-color: #FFF;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FFF;
-    padding: 1rem;
+    padding: 0 1rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
+    position: fixed;
+    left: 250px; /* coincide con la sidebar */
+    top: 0;
+    width: calc(100% - 250px);
+    z-index: 10;
 }
 
 .btn-logout {
@@ -107,18 +113,16 @@ body {
     cursor: pointer;
 }
 
-/* SECCIÓN DE REGISTRO DE OPERACIONES */
-.operations-section {
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* SECCIÓN FORMULARIO (scroll interno) */
+.form-container {
+    flex: 1 1 auto;
+    margin-top: 60px; /* deja espacio bajo el header fijo */
+    overflow-y: auto; /* scroll solo aquí */
+    padding: 1.5rem;
 }
 
-.operations-section h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
+.form-container h2 {
+    margin-bottom: 1rem;
 }
 
 /* BARRA DE PASOS TIPO WIZARD */
@@ -128,14 +132,13 @@ body {
     margin-bottom: 2rem;
     max-width: 600px;
     width: 100%;
-    position: relative;
 }
 
 .form-step {
     text-align: center;
     flex: 1;
     position: relative;
-    cursor: pointer; /* Icono de mouse al pasar sobre los números */
+    cursor: pointer;
 }
 
 .form-step::before {
@@ -175,7 +178,7 @@ body {
     color: #fff;
 }
 
-/* Paso completado en verde */
+/* Paso completado */
 .form-step.completed .step-number {
     background-color: #28a745;
     color: #fff;
@@ -187,11 +190,9 @@ body {
 /* FORMULARIO */
 .operations-form {
     background-color: #fff;
-    width: 100%;
-    max-width: 600px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .step-content {
@@ -204,24 +205,17 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.step-content h3 {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
-
-/* GRUPOS DE INPUT */
+/* Input group genérico */
 .input-group {
-    margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
 }
-
 .input-group label {
     margin-bottom: 0.3rem;
     font-weight: 600;
     color: #333;
 }
-
 .input-group input,
 .input-group select {
     padding: 0.75rem;
@@ -231,32 +225,53 @@ body {
     outline: none;
     transition: border-color 0.3s;
 }
-
 .input-group input:focus,
 .input-group select:focus {
     border-color: #2DA59E;
 }
 
-/* Dividir en 2 columnas (Paso 1) */
-.two-columns {
+/* GRID para el paso 1 */
+.grid-step1 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* 2 columnas */
     gap: 1rem;
-}
-.two-columns .column {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
-/* BOTONES */
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+.form-field label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #333;
+}
+.form-field input,
+.form-field select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Icon-Select: Combobox con ícono en la opción seleccionada */
+.icon-select {
+    background-position: 0.005rem center; /* Ajusta la posición */
+    background-repeat: no-repeat;
+    background-size: 16px 16px;         /* Ícono más pequeño */
+    padding-left: 45.5rem;               /* Espacio para el ícono */
+    height: 45px;                       /* Ajusta la altura, si lo deseas */
+    line-height: normal;                /* Asegura que no se corte el ícono */
+}
+
+/* Botones */
 .buttons-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 1rem;
     margin-top: 1rem;
 }
-
 .btn-primary {
     background-color: #2DA59E;
     color: white;
@@ -266,11 +281,6 @@ body {
     font-size: 1rem;
     cursor: pointer;
 }
-
-.btn-primary:hover {
-    background-color: #248C88;
-}
-
 .btn-secondary {
     background-color: #ccc;
     color: #333;
@@ -280,9 +290,17 @@ body {
     font-size: 1rem;
     cursor: pointer;
 }
-
+.btn-primary:hover {
+    background-color: #248C88;
+}
 .btn-secondary:hover {
     background-color: #bbb;
+}
+
+/* Resaltar inputs con error */
+.error-input {
+    border: 2px solid #dc3545 !important;
+    background-color: #ffe9ea;
 }
 
 /* OVERLAY DE CARGA */
@@ -299,7 +317,6 @@ body {
     align-items: center;
     z-index: 999;
 }
-
 .spinner {
     width: 50px;
     height: 50px;
@@ -309,7 +326,6 @@ body {
     animation: spin 1s linear infinite;
     margin-bottom: 1rem;
 }
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -328,7 +344,6 @@ body {
     align-items: center;
     z-index: 1000;
 }
-
 .success-content {
     background-color: #fff;
     padding: 2rem;
@@ -337,7 +352,6 @@ body {
     max-width: 400px;
     animation: fadeIn 0.4s ease;
 }
-
 .success-icon {
     width: 64px;
     height: 64px;
@@ -360,64 +374,13 @@ body {
     z-index: 2000;
     max-width: 280px;
 }
-
 .show-toast {
     opacity: 1;
     transform: translateY(0);
 }
-
-/* ÉXITO / ERROR */
 .toast-success {
     background-color: #28a745;
 }
-
 .toast-error {
     background-color: #dc3545;
-}
-
-/* CAMPOS CON ERROR */
-.error-input {
-    border: 2px solid #dc3545 !important;
-    background-color: #ffe9ea;
-}
-
-/* RESPONSIVIDAD */
-@media (max-width: 768px) {
-    .operations-container {
-        flex-direction: column;
-        min-height: auto;
-    }
-    .sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-    }
-    .admin-header {
-        margin-bottom: 1rem;
-    }
-    .operations-section {
-        padding: 0 1rem;
-    }
-    .operations-form {
-        padding: 1rem;
-    }
-    .form-steps {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-    .form-step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .form-step::before {
-        content: none;
-    }
-    .form-step .step-title {
-        margin-top: 0.2rem;
-    }
-    .two-columns {
-        grid-template-columns: 1fr; /* una sola columna en móviles */
-    }
 }

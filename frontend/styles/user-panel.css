@@ -50,9 +50,9 @@ body {
 
 /* Botones del sidebar */
 .user-sidebar button {
-    display: flex; /* Para alinear ícono y texto */
+    display: flex;
     align-items: center;
-    gap: 0.5rem; /* Espacio entre ícono y texto */
+    gap: 0.5rem;
     width: 100%;
     background: none;
     border: none;
@@ -81,14 +81,14 @@ body {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra horizontalmente */
+    align-items: center;
     position: relative;
 }
 
 /* Encabezado superior */
 .user-header {
     width: 100%;
-    max-width: 900px; /* para que no se extienda demasiado */
+    max-width: 900px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,7 +99,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Botón logout */
 .btn-logout {
     background-color: #FF5252;
     color: white;
@@ -112,74 +111,92 @@ body {
 /* Sección y formulario centrado/flotante */
 .user-section {
     width: 100%;
-    max-width: 900px; /* limita el ancho total */
+    max-width: 500px; /* limita el ancho total para el formulario */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .user-section h2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    color: #333;
 }
 
 .user-form {
     background-color: white;
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%; /* que se adapte */
-    margin-top: 1rem;
+    width: 100%;
 }
 
-/* Inputs e íconos */
 .input-group {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 1rem;
 }
 
-.input-group .icon {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-}
-
-.input-group .icon img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+.input-group label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #555;
 }
 
 .input-group input,
-.styled-select {
-    width: 100%;
-    padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* espacio para el ícono */
+.input-group select {
+    padding: 0.75rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.styled-select {
-    appearance: none;
-    background-color: white;
-    cursor: pointer;
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #2DA59E;
 }
 
-/* BOTÓN */
+/* Grupo de teléfono */
+.phone-group {
+    margin-bottom: 1rem;
+}
+
+.country-code-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.flag-container {
+    width: 32px;
+    height: 20px;
+    overflow: hidden;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flag-container img {
+    width: 32px;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Botón principal */
 .btn-primary {
     background-color: #2DA59E;
     color: white;
     border: none;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
     width: 100%;
-    text-align: center;
     margin-top: 1rem;
+    text-align: center;
 }
 
 .btn-primary:hover {
@@ -237,21 +254,53 @@ body {
     transform: translateY(0);
 }
 
-/* Responsividad general */
+/* ÉXITO / ERROR */
+.toast-success {
+    background-color: #28a745;
+}
+.toast-error {
+    background-color: #dc3545;
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
     .user-container {
         flex-direction: column;
         height: auto;
     }
+
     .user-sidebar {
         width: 100%;
         flex-direction: row;
         justify-content: space-around;
     }
+
     .user-header {
         margin-bottom: 1rem;
     }
+
     .user-form {
-        margin-top: 0.5rem;
+        padding: 1rem;
     }
 }
+
+/* Contenedor que agrupa código de país y número de teléfono */
+.phone-row {
+    display: flex;        /* Los pone en fila */
+    gap: 1rem;            /* Espacio entre ellos */
+    margin-bottom: 1rem;  /* Espacio inferior, si lo deseas */
+}
+
+/* Cada columna ocupará la mitad del espacio */
+.phone-code, .phone-number {
+    flex: 1;
+    display: flex;
+    flex-direction: column;  /* Mantiene el label arriba y el input abajo */
+}
+
+.country-code-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+

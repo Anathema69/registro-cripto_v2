@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
   <title>Registrar Operaciones</title>
-  <link rel="stylesheet" href="styles/user-operations.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+  <!-- Hoja de estilo principal -->
+  <link rel="stylesheet" href="styles/user-operations.css" />
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+          rel="stylesheet"
+  />
 </head>
 <body>
-<div class="operations-container">
-  <!-- Barra lateral -->
+<div class="container">
+  <!-- Barra lateral fija -->
   <aside class="sidebar">
     <h2>Panel de Usuario</h2>
     <nav>
       <ul>
         <li>
           <button onclick="window.location.href='user-panel.html'">
-            <img src="icon/panel_new_user.png" alt="Datos complementarios" class="sidebar-icon">
+            <img src="icon/panel_new_user.png" alt="Datos" class="sidebar-icon" />
             Datos complementarios
           </button>
         </li>
         <li>
           <button class="active">
-            <img src="icon/panel_download.png" alt="Registrar operaciones" class="sidebar-icon">
+            <img src="icon/panel_download.png" alt="Operaciones" class="sidebar-icon" />
             Registrar operaciones
           </button>
         </li>
@@ -32,19 +35,19 @@
     </nav>
   </aside>
 
-  <!-- Contenido principal -->
-  <main class="operations-content">
-    <!-- Encabezado -->
+  <!-- Contenido principal (header fijo + sección con scroll) -->
+  <div class="main-content">
+    <!-- Encabezado fijo arriba -->
     <header class="admin-header">
-      <h1>Bienvenido: <span id="userName"></span></h1>
+      <h1 id="userName"></h1>
       <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
     </header>
 
-    <!-- Sección con pasos tipo wizard -->
-    <section class="operations-section">
+    <!-- Sección del formulario con scroll interno -->
+    <section class="form-container">
       <h2>Registrar Operaciones</h2>
 
-      <!-- Barra de pasos -->
+      <!-- Barra de pasos tipo wizard -->
       <div class="form-steps">
         <div class="form-step" id="stepIndicator1">
           <div class="step-number">1</div>
@@ -64,191 +67,174 @@
         </div>
       </div>
 
-      <!-- Formulario con 4 pasos -->
+      <!-- Formulario de 4 pasos -->
       <form class="operations-form" id="operationsForm">
-        <!-- Paso 1: Datos de la Orden/Comercio -->
+        <!-- Paso 1 -->
         <div class="step-content" id="step1">
           <h3>Datos de la Orden/Comercio</h3>
-          <div class="two-columns">
-            <!-- Columna 1 -->
-            <div class="column">
-              <div class="input-group">
-                <label for="canal">Canal:</label>
-                <select id="canal" required>
-                  <option value="">Seleccione...</option>
-                  <option value="P2P">P2P</option>
-                  <option value="PAY">PAY</option>
-                  <option value="SPOT">SPOT</option>
-                </select>
-              </div>
 
-              <div class="input-group">
-                <label for="exchange">Exchange:</label>
-                <select id="exchange" required>
-                  <option value="">Seleccione...</option>
-                  <option value="BINANCE">BINANCE</option>
-                  <option value="OKX">OKX</option>
-                  <option value="BYBIT">BYBIT</option>
-                  <option value="BITGET">BITGET</option>
-                  <option value="KUCOIN">KUCOIN</option>
-                  <option value="BINGX">BINGX</option>
-                  <option value="EL DORADO">EL DORADO</option>
-                  <option value="OTC´S">OTC´S</option>
-                </select>
-              </div>
-
-              <div class="input-group">
-                <label for="ordenNum">Orden N°:</label>
-                <input type="number" id="ordenNum" placeholder="Ej. 12345" required>
-              </div>
-
-              <div class="input-group">
-                <label for="tipoActivo">Tipo de Operación:</label>
-                <select id="tipoActivo" required>
-                  <option value="">Seleccione...</option>
-                  <option value="Compra">Compra</option>
-                  <option value="Venta">Venta</option>
-                </select>
-              </div>
-
-              <div class="input-group">
-                <label for="activo">Activo:</label>
-                <select id="activo" required>
-                  <option value="">Seleccione...</option>
-                  <option value="USDT">USDT</option>
-                  <option value="USDC">USDC</option>
-                  <option value="FDUSD">FDUSD</option>
-                  <option value="BTC">BTC</option>
-                  <option value="BNB">BNB</option>
-                  <option value="ETH">ETH</option>
-                  <option value="DOGE">DOGE</option>
-                  <option value="ADA">ADA</option>
-                  <option value="XRP">XRP</option>
-                  <option value="SOL">SOL</option>
-                </select>
-              </div>
+          <!-- Grid con 2 columnas y 5 filas (10 campos) -->
+          <div class="grid-step1">
+            <!-- 1. Canal -->
+            <div class="form-field">
+              <label for="canal">Canal:</label>
+              <select id="canal" required>
+                <option value="">Seleccione...</option>
+                <option value="P2P">P2P</option>
+                <option value="PAY">PAY</option>
+                <option value="SPOT">SPOT</option>
+              </select>
             </div>
-            <!-- Columna 2 -->
-            <div class="column">
-              <div class="input-group">
-                <label for="moneda">Moneda:</label>
-                <select id="moneda" required>
-                  <option value="">Seleccione...</option>
-                  <option value="COP">COP</option>
-                  <option value="CLP">CLP</option>
-                  <option value="ARS">ARS</option>
-                  <option value="PEN">PEN</option>
-                  <option value="VES">VES</option>
-                  <option value="BOL">BOL</option>
-                  <option value="BRL">BRL</option>
-                  <option value="USD">USD</option>
-                  <option value="CAD">CAD</option>
-                  <option value="CRC">CRC</option>
-                  <option value="DOP">DOP</option>
-                  <option value="EUR">EUR</option>
-                  <option value="GBP">GBP</option>
-                  <option value="GTQ">GTQ</option>
-                  <option value="MXN">MXN</option>
-                  <option value="PAB">PAB</option>
-                  <option value="UYU">UYU</option>
-                </select>
-              </div>
 
-              <div class="input-group">
-                <label for="monto">Monto:</label>
-                <input type="number" step="0.01" id="monto" placeholder="Ej. 1.50" required>
-              </div>
-
-              <div class="input-group">
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" id="cantidad" placeholder="Ej. 100" required>
-              </div>
-
-              <div class="input-group">
-                <label for="total">Total:</label>
-                <input type="number" step="0.01" id="total" placeholder="Se calcula automáticamente" readonly>
-              </div>
-
-
-              <div class="input-group">
-                <label for="comision">Comisión:</label>
-                <input type="number" step="0.01" id="comision" placeholder="Ej. 0.50" required>
-              </div>
+            <!-- 2. Exchange (con ícono al seleccionar) -->
+            <div class="form-field">
+              <label for="exchange">Exchange:</label>
+              <select id="exchange" class="icon-select" data-default-icon="icon/exchanges/blank.png" required>
+                <option value="" data-icon="icon/exchanges/blank.png">Seleccione...</option>
+                <option value="BINANCE" data-icon="icon/exchanges/binance.png">BINANCE</option>
+                <option value="OKX" data-icon="icon/exchanges/okx.png">OKX</option>
+                <option value="BYBIT" data-icon="icon/exchanges/bybit.png">BYBIT</option>
+                <option value="BITGET" data-icon="icon/exchanges/bitget.png">BITGET</option>
+                <option value="KUCOIN" data-icon="icon/exchanges/kucoin.png">KUCOIN</option>
+                <option value="BINGX" data-icon="icon/exchanges/bingx.png">BINGX</option>
+                <option value="EL DORADO" data-icon="icon/exchanges/eldorado.png">EL DORADO</option>
+                <option value="OTC´S" data-icon="icon/exchanges/otcs.png">OTC´S</option>
+              </select>
             </div>
-          </div>
+
+            <!-- 3. Orden N° -->
+            <div class="form-field">
+              <label for="ordenNum">Orden N°:</label>
+              <input type="number" id="ordenNum" placeholder="Ej. 12345" required />
+            </div>
+
+            <!-- 4. Tipo (Compra/Venta) -->
+            <div class="form-field">
+              <label for="tipoActivo">Tipo:</label>
+              <select id="tipoActivo" required>
+                <option value="">Seleccione...</option>
+                <option value="Compra">Compra</option>
+                <option value="Venta">Venta</option>
+              </select>
+            </div>
+
+            <!-- 5. Activo -->
+            <div class="form-field">
+              <label for="activo">Activo:</label>
+              <select id="activo" class="icon-select" data-default-icon="icon/actives/blank.png" required>
+                <option value="" data-icon="icon/actives/blank.png">Seleccione...</option>
+                <option value="USDT" data-icon="icon/actives/usdt.png">USDT</option>
+                <option value="USDC" data-icon="icon/actives/usdc.png">USDC</option>
+                <option value="FDUSD" data-icon="icon/actives/fdusd.png">FDUSD</option>
+                <option value="BTC" data-icon="icon/actives/btc.png">BTC</option>
+                <option value="BNB" data-icon="icon/actives/bnb.png">BNB</option>
+                <option value="ETH" data-icon="icon/actives/eth.png">ETH</option>
+                <option value="DOGE" data-icon="icon/actives/doge.png">DOGE</option>
+                <option value="ADA" data-icon="icon/actives/ada.png">ADA</option>
+                <option value="XRP" data-icon="icon/actives/xrp.png">XRP</option>
+                <option value="SOL" data-icon="icon/actives/sol.png">SOL</option>
+              </select>
+            </div>
+
+            <!-- 6. Moneda -->
+            <div class="form-field">
+              <label for="moneda">Moneda:</label>
+              <select id="moneda" class="icon-select" data-default-icon="icon/currencies/blank.png" required>
+                <option value="" data-icon="icon/currencies/blank.png">Seleccione...</option>
+                <option value="COP" data-icon="icon/currencies/cop.png">COP</option>
+                <option value="USD" data-icon="icon/currencies/usd.png">USD</option>
+                <option value="PEN" data-icon="icon/currencies/pen.png">PEN</option>
+                <option value="ARS" data-icon="icon/currencies/ars.png">ARS</option>
+                <option value="CLP" data-icon="icon/currencies/clp.png">CLP</option>
+              </select>
+            </div>
+
+            <!-- 7. Monto -->
+            <div class="form-field">
+              <label for="monto">Monto:</label>
+              <input type="number" step="0.01" id="monto" placeholder="Ej. 1.50" required />
+            </div>
+
+            <!-- 8. Cantidad -->
+            <div class="form-field">
+              <label for="cantidad">Cantidad:</label>
+              <input type="number" id="cantidad" placeholder="Ej. 100" required />
+            </div>
+
+            <!-- 9. Total -->
+            <div class="form-field">
+              <label for="total">Total:</label>
+              <input type="number" step="0.01" id="total" placeholder="Automático" readonly />
+            </div>
+
+            <!-- 10. Comisión -->
+            <div class="form-field">
+              <label for="comision">Comisión:</label>
+              <input type="number" step="0.01" id="comision" placeholder="Ej. 0.50" required />
+            </div>
+          </div> <!-- end grid-step1 -->
 
           <div class="buttons-group">
             <button type="button" class="btn-primary" id="btnNext1">Siguiente</button>
           </div>
-        </div>
+        </div> <!-- end step1 -->
 
-        <!-- Paso 2: Datos Titular del Exchange -->
+        <!-- Paso 2: Titular Exchange -->
         <div class="step-content" id="step2" style="display: none;">
-          <h3>Datos Titular del Exchange</h3>
-
+          <h3>Datos de Titular Exchange</h3>
           <div class="input-group">
             <label for="titularNombre">Nombre Titular:</label>
-            <input type="text" id="titularNombre" placeholder="Nombre de quien recibe el dinero" required>
+            <input type="text" id="titularNombre" placeholder="Nombre de quien recibe" required />
           </div>
-
           <div class="input-group">
             <label for="titularTipoID">Tipo ID:</label>
             <select id="titularTipoID" required>
               <option value="">Seleccione...</option>
-              <option value="CC">Cedula Ciudadania (CC)</option>
-              <option value="CE">Cedula Extranjeria (CE)</option>
-              <option value="NIT">Numero Identificacion Tributaria (NIT)</option>
-              <option value="PS">Pasaporte (PS)</option>
-              <option value="NIE">Documento Identificacion Extranjero (NIE)</option>
-              <option value="PPT">Permiso Proteccion Temporal (PPT)</option>
-              <option value="NIT-E">Numero Tributario Otro Pais (NIT-E)</option>
+              <option value="CC">CC</option>
+              <option value="CE">CE</option>
+              <option value="NIT">NIT</option>
+              <option value="PS">Pasaporte</option>
+              <option value="NIE">NIE</option>
+              <option value="PPT">PPT</option>
             </select>
           </div>
-
           <div class="input-group">
             <label for="titularDocumento">Documento:</label>
-            <input type="text" id="titularDocumento" placeholder="Número respectivo del ID" required>
+            <input type="text" id="titularDocumento" placeholder="Número del ID" required />
           </div>
-
           <div class="input-group">
             <label for="titularDireccion">Dirección:</label>
-            <input type="text" id="titularDireccion" placeholder="Dirección del titular" required>
+            <input type="text" id="titularDireccion" placeholder="Dirección del titular" required />
           </div>
-
           <div class="buttons-group">
             <button type="button" class="btn-secondary" id="btnPrev2">Anterior</button>
             <button type="button" class="btn-primary" id="btnNext2">Siguiente</button>
           </div>
         </div>
 
-        <!-- Paso 3: Datos del Tercero/Pago -->
+        <!-- Paso 3: Tercero/Pago -->
         <div class="step-content" id="step3" style="display: none;">
-          <h3>Datos del Tercero / Pago</h3>
-
+          <h3>Datos del Tercero/Pago</h3>
           <div class="input-group">
             <label for="terceroNombre">Nombre:</label>
-            <input type="text" id="terceroNombre" placeholder="Nombre del tercero" required>
+            <input type="text" id="terceroNombre" placeholder="Nombre del tercero" required />
           </div>
-
           <div class="input-group">
             <label for="terceroTipoID">Tipo ID:</label>
             <select id="terceroTipoID" required>
               <option value="">Seleccione...</option>
-              <option value="CC">Cedula Ciudadania (CC)</option>
-              <option value="CE">Cedula Extranjeria (CE)</option>
-              <option value="NIT">Numero Identificacion Tributaria (NIT)</option>
-              <option value="PS">Pasaporte (PS)</option>
-              <option value="NIE">Documento Identificacion Extranjero (NIE)</option>
-              <option value="PPT">Permiso Proteccion Temporal (PPT)</option>
-              <option value="NIT-E">Numero Tributario Otro Pais (NIT-E)</option>
+              <option value="CC">CC</option>
+              <option value="CE">CE</option>
+              <option value="NIT">NIT</option>
+              <option value="PS">Pasaporte</option>
+              <option value="NIE">NIE</option>
+              <option value="PPT">PPT</option>
             </select>
           </div>
-
           <div class="input-group">
             <label for="terceroDocumento">Documento:</label>
-            <input type="text" id="terceroDocumento" placeholder="Número del documento" required>
+            <input type="text" id="terceroDocumento" placeholder="Número del documento" required />
           </div>
-
           <div class="buttons-group">
             <button type="button" class="btn-secondary" id="btnPrev3">Anterior</button>
             <button type="button" class="btn-primary" id="btnNext3">Siguiente</button>
@@ -258,34 +244,26 @@
         <!-- Paso 4: Datos de Pago -->
         <div class="step-content" id="step4" style="display: none;">
           <h3>Datos de Pago</h3>
-
           <div class="input-group">
             <label for="cuentaOrigen">Cuenta Origen:</label>
-            <input type="text" id="cuentaOrigen" placeholder="La cuenta del usuario" readonly>
+            <input type="text" id="cuentaOrigen" placeholder="La cuenta del usuario" readonly />
           </div>
-
-
-
           <div class="input-group">
             <label for="cuentaDestino">Cuenta Destino:</label>
-            <input type="number" id="cuentaDestino" placeholder="Número de cuenta destino" required>
+            <input type="number" id="cuentaDestino" placeholder="Número de cuenta destino" required />
           </div>
-
           <div class="input-group">
             <label for="referenciaPago">Referencia:</label>
-            <input type="text" id="referenciaPago" placeholder="Referencia del pago" required>
+            <input type="text" id="referenciaPago" placeholder="Referencia del pago" required />
           </div>
-
           <div class="input-group">
             <label for="estadoPago">Estado:</label>
-            <input type="text" id="estadoPago" placeholder="Estado del pago" required>
+            <input type="text" id="estadoPago" placeholder="Estado del pago" required />
           </div>
-
           <div class="input-group">
             <label for="fechaPago">Fecha:</label>
-            <input type="date" id="fechaPago" required>
+            <input type="date" id="fechaPago" required />
           </div>
-
           <div class="buttons-group">
             <button type="button" class="btn-secondary" id="btnPrev4">Anterior</button>
             <button type="submit" class="btn-primary" id="btnRegistrar">Registrar Operación</button>
@@ -293,7 +271,7 @@
         </div>
       </form>
     </section>
-  </main>
+  </div>
 </div>
 
 <!-- Overlay y spinner -->
@@ -305,7 +283,7 @@
 <!-- Overlay de éxito -->
 <div id="successOverlay" class="success-overlay" style="display: none;">
   <div class="success-content">
-    <img src="icon/check.png" alt="Success Check" class="success-icon">
+    <img src="icon/check.png" alt="Success Check" class="success-icon" />
     <h2>¡Operación registrada con éxito!</h2>
   </div>
 </div>
