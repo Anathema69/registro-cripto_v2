@@ -39,6 +39,7 @@ app.use('/api/operation', require('./routes/user-operation'));
 app.use('/api/history', require('./routes/user-history-operations'));
 app.use('/uploads', express.static('uploads'));
 
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
