@@ -24,7 +24,9 @@ app.use(morgan('dev', {
     }
 }));
 
-app.use(cors());
+app.use(cors({
+    origin: 'https://registro-cripto-v2.onrender.com'
+}));
 app.use(express.json());
 
 // Servir estáticos desde 'frontend'

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js --watch server.js --watch ../frontend"
+    "start": "cd backend && npm start",
+    "build": "cd backend && npm install"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
