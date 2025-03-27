@@ -29,7 +29,9 @@ const OperationSchema = new mongoose.Schema({
     cuentaDestino:      { type: String },
     referenciaPago:     { type: String },
     estadoPago:         { type: String },
-    fecha:              { type: Date }
+    fecha:              { type: Date },
+    // Campo para la imagen (ruta en el servidor)
+    receiptImage: { type: String }  // Ejemplo: "uploads/2023-05-01-xyz.png"
 }, { timestamps: true });
 
 module.exports = mongoose.model('Operation', OperationSchema);

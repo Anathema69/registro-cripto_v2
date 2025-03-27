@@ -4,43 +4,43 @@
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM loaded -> user-operations.js');
 
-    // === 1. Verificar token y rol ===
+    // 1) Verificar token y rol
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     const userId = localStorage.getItem('userId');
+    console.log('1) token:', token, 'role:', role, 'userId:', userId);
+
     if (!token || role !== 'user') {
-        console.log('No token or role != user, redirecting to index');
+        console.log('1.x) No token or role != user => redirect to index');
         window.location.href = 'index.html';
         return;
     }
 
-    // === 2. Mostrar nombre en el encabezado ===
+    // 2) Mostrar nombre en el encabezado
     const fullName = localStorage.getItem('fullName') || 'Usuario';
     const userNameEl = document.getElementById('userName');
     if (userNameEl) {
         userNameEl.textContent = `Bienvenido: ${fullName}`;
+        console.log('2) userName =>', userNameEl.textContent);
     }
 
-    // === 3. Botón logout ===
+    // 3) Botón logout
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            console.log('Logout clicked');
-            localStorage.removeItem('token');
-            localStorage.removeItem('role');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('fullName');
+            console.log('3) Logout clicked');
+            localStorage.clear();
             window.location.href = 'index.html';
         });
     }
 
-    // === 4. Referencias a elementos de UI ===
+    // 4) Referencias de UI
     const toast = document.getElementById('toast');
     const loadingOverlay = document.getElementById('loadingOverlay');
     const successOverlay = document.getElementById('successOverlay');
 
-    // === 5. Función para mostrar toast ===
     function showToast(message, success = true) {
+        if (!toast) return;
         toast.textContent = message;
         toast.className = 'toast show-toast ' + (success ? 'toast-success' : 'toast-error');
         toast.style.display = 'block';
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 3000);
     }
 
-    // === 6. Wizard de 4 pasos ===
+    // 5) Wizard de 4 pasos
     const steps = [
         document.getElementById('step1'),
         document.getElementById('step2'),
@@ -66,18 +66,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentStepIndex = 0;
 
     function goToStep(index) {
-        // Si intenta saltar pasos, validamos los intermedios
         if (index > currentStepIndex) {
             for (let i = currentStepIndex; i < index; i++) {
                 if (!validateStep(i)) return;
             }
         }
-        // Oculta todos los pasos
         steps.forEach(s => s.style.display = 'none');
-        // Muestra el paso actual
         steps[index].style.display = 'block';
 
-        // Actualiza indicadores
         stepIndicators.forEach((indicator, i) => {
             indicator.classList.remove('active', 'completed');
             if (i < index) indicator.classList.add('completed');
@@ -133,10 +129,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     stepIndicators.forEach((indicator, i) => {
         indicator.addEventListener('click', () => goToStep(i));
     });
-    // Arranca en el paso 0
     goToStep(0);
 
-    // === 7. Cálculo automático de Total ===
+    // 6) Cálculo automático de Total
     const montoInput = document.getElementById('monto');
     const cantidadInput = document.getElementById('cantidad');
     const totalInput = document.getElementById('total');
@@ -149,62 +144,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (montoInput) montoInput.addEventListener('input', updateTotal);
     if (cantidadInput) cantidadInput.addEventListener('input', updateTotal);
 
-    // === 8. Cargar la cuenta de origen (cuentaOrigen) del usuario ===
+    // 7) Cargar la cuenta de origen (cuentaOrigen) del usuario
     const cuentaOrigenInput = document.getElementById('cuentaOrigen');
-
     async function loadUserAccount() {
-        console.log('1) loadUserAccount() -> userId:', userId);
-        if (!userId || !token) {
-            console.log('1.x) No userId or token found, skip loadUserAccount');
-            return;
-        }
+        console.log('7) loadUserAccount => /api/user/' + userId);
+        if (!userId || !token) return;
         try {
-            console.log(`1.1) fetch GET /api/user/${userId} -> about to call`);
             const resp = await fetch(`/api/user/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log('1.2) fetch GET /api/user/:id -> response status:', resp.status);
-
+            console.log('7.1) status:', resp.status);
             if (resp.ok) {
                 const userData = await resp.json();
-                console.log('1.3) userData:', userData);
+                console.log('7.2) userData:', userData);
                 if (userData.accountNumber) {
                     cuentaOrigenInput.value = userData.accountNumber;
-                    console.log('1.4) Se asignó accountNumber:', userData.accountNumber);
-                } else {
-                    console.log('1.4) userData.accountNumber no existe');
+                    console.log('7.3) Se asignó:', userData.accountNumber);
                 }
             } else {
-                const errorText = await resp.text();
-                console.log('1.x) GET /api/user/:id no OK:', errorText);
+                console.log('7.x) not ok =>', await resp.text());
             }
         } catch (err) {
-            console.log('1.x) loadUserAccount() -> catch error:', err);
+            console.log('7.x) catch =>', err);
         }
     }
-
-    // Llamar a la carga de cuenta
     await loadUserAccount();
 
-    // === 9. Manejo de íconos en <select> con la clase .icon-select ===
+    // 8) Íconos en <select> (icon-select)
     const iconSelects = document.querySelectorAll('.icon-select');
-    iconSelects.forEach(selectEl => {
-        updateSelectIcon(selectEl);
-        selectEl.addEventListener('change', () => {
-            updateSelectIcon(selectEl);
-        });
+    iconSelects.forEach(sel => {
+        updateSelectIcon(sel);
+        sel.addEventListener('change', () => updateSelectIcon(sel));
     });
-
     function updateSelectIcon(selectEl) {
         const selectedOption = selectEl.options[selectEl.selectedIndex];
-        const iconPath = selectedOption.getAttribute('data-icon') || '';
-        // Ajusta la imagen como background
+        const iconPath = selectedOption.getAttribute('data-icon') || selectEl.getAttribute('data-default-icon') || '';
         selectEl.style.backgroundImage = `url('${iconPath}')`;
     }
 
-    // === 10. Registrar operación (POST /api/operation/register) ===
+    // 9) Registrar operación (multipart/form-data)
     const operationsForm = document.getElementById('operationsForm');
     if (operationsForm) {
         operationsForm.addEventListener('submit', async (e) => {
@@ -212,78 +192,64 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!validateStep(currentStepIndex)) return;
 
             loadingOverlay.style.display = 'flex';
-            console.log('2) Iniciando registro de operación...');
+            console.log('9) Iniciando registro de operación...');
 
-            // Recopilar datos
-            const canal = document.getElementById('canal').value;
-            const exchange = document.getElementById('exchange').value;
-            const ordenNum = document.getElementById('ordenNum').value;
-            const tipoActivo = document.getElementById('tipoActivo').value;
-            const activo = document.getElementById('activo').value;
-            const moneda = document.getElementById('moneda').value;
-            const monto = document.getElementById('monto').value;
-            const cantidad = document.getElementById('cantidad').value;
-            const total = document.getElementById('total').value;
-            const comision = document.getElementById('comision').value;
+            const formData = new FormData();
 
-            const titularNombre = document.getElementById('titularNombre').value;
-            const titularTipoID = document.getElementById('titularTipoID').value;
-            const titularDocumento = document.getElementById('titularDocumento').value;
-            const titularDireccion = document.getElementById('titularDireccion').value;
+            // Paso 1
+            formData.append('canal', document.getElementById('canal').value);
+            formData.append('plataforma', document.getElementById('exchange').value);
+            formData.append('ordenNum', document.getElementById('ordenNum').value);
+            formData.append('tipoActivo', document.getElementById('tipoActivo').value);
+            formData.append('activo', document.getElementById('activo').value);
+            formData.append('moneda', document.getElementById('moneda').value);
+            formData.append('monto', document.getElementById('monto').value);
+            formData.append('cantidad', document.getElementById('cantidad').value);
+            formData.append('total', document.getElementById('total').value);
+            formData.append('comision', document.getElementById('comision').value);
 
-            const terceroNombre = document.getElementById('terceroNombre').value;
-            const terceroTipoID = document.getElementById('terceroTipoID').value;
-            const terceroDocumento = document.getElementById('terceroDocumento').value;
+            // Paso 2
+            formData.append('titularNombre', document.getElementById('titularNombre').value);
+            formData.append('titularTipoID', document.getElementById('titularTipoID').value);
+            formData.append('titularDocumento', document.getElementById('titularDocumento').value);
+            formData.append('titularDireccion', document.getElementById('titularDireccion').value);
 
-            const cuentaDestino = document.getElementById('cuentaDestino').value;
-            const referenciaPago = document.getElementById('referenciaPago').value;
-            const estadoPago = document.getElementById('estadoPago').value;
-            const fecha = document.getElementById('fechaPago').value;
-            const cuentaOrigen = cuentaOrigenInput.value;
+            // Paso 3
+            formData.append('terceroNombre', document.getElementById('terceroNombre').value);
+            formData.append('terceroTipoID', document.getElementById('terceroTipoID').value);
+            formData.append('terceroDocumento', document.getElementById('terceroDocumento').value);
+
+            // Paso 4
+            formData.append('cuentaOrigen', cuentaOrigenInput.value);
+            formData.append('cuentaDestino', document.getElementById('cuentaDestino').value);
+            formData.append('referenciaPago', document.getElementById('referenciaPago').value);
+            formData.append('estadoPago', document.getElementById('estadoPago').value);
+            formData.append('fecha', document.getElementById('fechaPago').value);
+
+            // Imagen opcional
+            const receiptImageInput = document.getElementById('receiptImage');
+            if (receiptImageInput && receiptImageInput.files.length > 0) {
+                formData.append('receiptImage', receiptImageInput.files[0]);
+            }
 
             try {
-                console.log('2.1) fetch POST /api/operation/register -> about to call');
+                console.log('9.1) POST /api/operation/register => about to call');
                 const response = await fetch('/api/operation/register', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({
-                        canal,
-                        plataforma: exchange,
-                        ordenNum,
-                        tipoActivo,
-                        activo,
-                        moneda,
-                        monto,
-                        cantidad,
-                        total,
-                        comision,
-                        titularNombre,
-                        titularTipoID,
-                        titularDocumento,
-                        titularDireccion,
-                        terceroNombre,
-                        terceroTipoID,
-                        terceroDocumento,
-                        cuentaOrigen,
-                        cuentaDestino,
-                        referenciaPago,
-                        estadoPago,
-                        fecha
-                    })
+                    body: formData
                 });
 
-                console.log('2.2) fetch POST /api/operation/register -> response status:', response.status);
+                console.log('9.2) response status:', response.status);
                 const data = await response.json();
-                console.log('2.3) data:', data);
+                console.log('9.3) data:', data);
 
                 loadingOverlay.style.display = 'none';
 
                 if (response.ok) {
-                    // Éxito
-                    console.log('2.4) Operación registrada con éxito');
+                    console.log('9.4) Operación registrada con éxito');
                     successOverlay.style.display = 'flex';
                     operationsForm.reset();
                     goToStep(0);
@@ -293,13 +259,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         successOverlay.style.display = 'none';
                     }, 2000);
                 } else {
-                    // Error en la respuesta
-                    console.log('2.x) Error al registrar la operación:', data.message);
+                    console.log('9.x) Error al registrar:', data.message);
                     showToast(data.message || 'Error al registrar la operación', false);
                 }
             } catch (error) {
-                // Error de red / fetch
-                console.log('2.x) catch -> Error al conectar con el servidor:', error);
+                console.log('9.x) catch => Error al conectar con el servidor:', error);
                 loadingOverlay.style.display = 'none';
                 showToast('Error al conectar con el servidor', false);
             }

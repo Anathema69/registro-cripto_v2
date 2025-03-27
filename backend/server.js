@@ -36,6 +36,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user-panel'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/operation', require('./routes/user-operation'));
+app.use('/api/history', require('./routes/user-history-operations'));
+app.use('/uploads', express.static('uploads'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

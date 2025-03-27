@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Operaciones</title>
+    <link rel="stylesheet" href="styles/user-history-operations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<div class="history-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+        <h2>Panel de Usuario</h2>
+        <nav>
+            <ul>
+                <li>
+                    <button onclick="window.location.href='user-panel.html'">
+                        <img src="icon/panel_new_user.png" alt="Datos complementarios" class="sidebar-icon">
+                        Datos complementarios
+                    </button>
+                </li>
+                <li>
+                    <button onclick="window.location.href='user-operations.html'">
+                        <img src="icon/panel_download.png" alt="Registrar operaciones" class="sidebar-icon">
+                        Registrar operaciones
+                    </button>
+                </li>
+                <li>
+                    <button class="active">
+                        <img src="icon/history-icon.png" alt="Historial" class="sidebar-icon">
+                        Historial operaciones
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <!-- Encabezado fijo -->
+        <header class="admin-header">
+            <h1 id="userName"></h1>
+            <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+        </header>
+
+        <!-- Sección del historial con scroll interno -->
+        <section class="history-section">
+            <h2>Historial de Operaciones</h2>
+            <div class="table-container">
+                <table id="operationsTable">
+                    <thead>
+                    <tr>
+                        <!-- Ajusta los campos que quieras mostrar -->
+                        <th>Fecha registro</th>
+                        <th>Fecha usuario</th>
+                        <th>Cuenta destino</th>
+                        <th>Canal</th>
+                        <th>Tipo</th>
+                        <th>Activo</th>
+                        <th>Moneda</th>
+                        <th>Monto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Constancia</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Se llenará dinámicamente con JS -->
+                    </tbody>
+                </table>
+                <!-- ... tu HTML previo ... -->
+                <div id="receiptModal" class="modal">
+                    <div class="modal-content">
+                        <span class="modal-close">&times;</span>
+                        <img id="modalReceiptImage" src="" alt="Constancia" />
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Toast de notificación -->
+<div id="toast" class="toast" style="display: none;"></div>
+
+<!-- Script principal -->
+<script src="js/user-history-operations.js"></script>
+</body>
+</html>
