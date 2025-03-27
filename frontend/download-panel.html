@@ -2,12 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Descargar Reportes</title>
     <link rel="stylesheet" href="styles/download-panel.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
 </head>
 <body>
 <div class="download-container">
@@ -17,60 +13,61 @@
             <ul>
                 <li>
                     <button onclick="window.location.href='admin-panel.html'">
-                        <img src="icon/panel_new_user.png" alt="Usuarios" class="sidebar-icon">
                         Crear nuevos usuarios
                     </button>
                 </li>
                 <li>
                     <button class="active">
-                        <img src="icon/panel_download.png" alt="Descargas" class="sidebar-icon">
                         Descargar reportes
                     </button>
                 </li>
             </ul>
         </nav>
     </aside>
+
     <main class="download-content">
         <header class="admin-header">
             <h1>Bienvenido: <span id="userName"></span></h1>
             <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
         </header>
+
         <section class="download-section">
             <h2>Descargar Reportes</h2>
             <form class="download-form" id="downloadForm">
-                <label class="label-usuarios">Buscar usuarios:</label>
-                <input type="text" class="search-input" id="searchUser" placeholder="Escribe para filtrar usuarios...">
-                <label class="label-usuarios">Seleccionar Usuarios:</label>
-                <label class="checkbox-container">
+                <label>Buscar usuarios:</label>
+                <input type="text" id="searchUser" placeholder="Escribe para filtrar usuarios...">
+
+                <label>Seleccionar Usuarios:</label>
+                <label>
                     <input type="checkbox" id="selectAllUsers">
-                    <span>Seleccionar todos</span>
+                    Seleccionar todos
                 </label>
                 <div class="multi-select-container" id="userList">
-                    <!-- Se llenará dinámicamente -->
+                    <!-- Se llenará dinámicamente con checkboxes para cada usuario -->
                 </div>
+
                 <div class="date-range">
                     <div class="date-field">
                         <label for="fechaInicio">Fecha Inicio:</label>
-                        <input type="date" id="fechaInicio" class="date-input">
+                        <input type="date" id="fechaInicio">
                     </div>
                     <div class="date-field">
                         <label for="fechaFin">Fecha Fin:</label>
-                        <input type="date" id="fechaFin" class="date-input">
+                        <input type="date" id="fechaFin">
                     </div>
                 </div>
+
                 <button type="submit" class="btn-primary">
-                    <img src="icon/xls_icon.png" alt="XLS Icon" class="btn-icon">
                     Descargar Reporte
                 </button>
             </form>
         </section>
     </main>
 </div>
-<div id="loadingOverlay" class="loading-overlay" style="display: none;">
-    <div class="spinner"></div>
-    <p>Generando reporte...</p>
-</div>
-<div id="toast" class="toast" style="display: none;"></div>
+
+<div id="loadingOverlay" style="display: none;">Generando reporte...</div>
+<div id="toast" style="display: none;"></div>
+
 <script src="js/download-panel.js"></script>
 </body>
 </html>

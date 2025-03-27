@@ -3,20 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const role = localStorage.getItem('role');
     if (!token || role !== 'admin') {
         window.location.href = 'index.html';
+        return;
     }
 
     const fullName = localStorage.getItem('fullName') || 'Admin';
     document.getElementById('userName').textContent = fullName;
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('fullName');
+        localStorage.clear();
         window.location.href = 'index.html';
     });
 
+    const userList = document.getElementById('userList');
+    const selectAllUsers = document.getElementById('selectAllUsers');
+    const searchUser = document.getElementById('searchUser');
+    const downloadForm = document.getElementById('downloadForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
     const toast = document.getElementById('toast');
+
     function showToast(message, success = true) {
         toast.textContent = message;
         toast.className = 'toast show-toast ' + (success ? 'toast-success' : 'toast-error');
@@ -27,81 +31,125 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
+    // Función para aplicar shake a un elemento
+    function shakeElement(element) {
+        element.classList.add('shake');
+        setTimeout(() => {
+            element.classList.remove('shake');
+        }, 400);
+    }
+
+    // Establecer por defecto la fecha de hoy en los inputs
+    const todayStr = new Date().toISOString().slice(0,10);
+    const fechaInicioInput = document.getElementById('fechaInicio');
+    const fechaFinInput = document.getElementById('fechaFin');
+    if (fechaInicioInput) fechaInicioInput.value = todayStr;
+    if (fechaFinInput) fechaFinInput.value = todayStr;
+
+    // Cargar lista de usuarios
     async function loadUsers(filterText = '') {
         try {
-            const response = await fetch('/api/admin/users', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const resp = await fetch('/api/admin/users', {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-            const users = await response.json();
-            const userList = document.getElementById('userList');
+            const data = await resp.json();
+            if (!resp.ok) throw new Error(data.message || 'Error al cargar usuarios');
+
             userList.innerHTML = '';
             const lowerFilter = filterText.toLowerCase();
-            const filtered = users.filter(user => user.fullName.toLowerCase().includes(lowerFilter));
+            const filtered = data.filter(u => u.fullName.toLowerCase().includes(lowerFilter));
 
-            const downloadButton = document.querySelector('.download-form button');
-            if (filtered.length === 0) {
-                userList.innerHTML = '<p>No hay usuarios registrados</p>';
-                downloadButton.disabled = true;
-                downloadButton.innerHTML = '<img src="icon/lock.png" alt="Bloqueado" class="btn-icon"> Descargar Reporte';
-            } else {
-                downloadButton.disabled = false;
-                downloadButton.innerHTML = '<img src="icon/xls_icon.png" alt="XLS Icon" class="btn-icon"> Descargar Reporte';
-                filtered.forEach(user => {
-                    const label = document.createElement('label');
-                    label.classList.add('checkbox-container');
-                    const input = document.createElement('input');
-                    input.type = 'checkbox';
-                    input.name = 'usuarios';
-                    input.value = user.fullName;
-                    const span = document.createElement('span');
-                    span.textContent = user.fullName;
-                    label.appendChild(input);
-                    label.appendChild(span);
-                    userList.appendChild(label);
-                });
-            }
-        } catch (error) {
-            console.error('Error fetching users:', error);
+            filtered.forEach(u => {
+                const label = document.createElement('label');
+                label.classList.add('checkbox-container');
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.name = 'usuarios';
+                input.value = u._id; // se usa _id
+                label.appendChild(input);
+                label.append(' ' + u.fullName);
+                userList.appendChild(label);
+            });
+        } catch (err) {
+            console.error('Error loadUsers:', err);
             showToast('Error al cargar usuarios', false);
         }
     }
 
     loadUsers();
+    searchUser.addEventListener('input', (e) => loadUsers(e.target.value));
 
-    const searchInput = document.getElementById('searchUser');
-    searchInput.addEventListener('input', (e) => {
-        loadUsers(e.target.value);
-        document.getElementById('selectAllUsers').checked = false;
-    });
-
-    const selectAllUsers = document.getElementById('selectAllUsers');
     selectAllUsers.addEventListener('change', (e) => {
-        const checkboxes = document.querySelectorAll('#userList input[type="checkbox"]');
+        const checkboxes = userList.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(chk => { chk.checked = e.target.checked; });
     });
 
-    async function loadCurrentDate() {
-        try {
-            const response = await fetch('/api/admin/current-date');
-            const data = await response.json();
-            document.getElementById('fechaInicio').value = data.currentDate;
-            document.getElementById('fechaFin').value = data.currentDate;
-        } catch (error) {
-            console.error('Error fetching current date:', error);
-        }
-    }
-    loadCurrentDate();
-
-    const downloadForm = document.getElementById('downloadForm');
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    downloadForm.addEventListener('submit', (e) => {
+    // Manejo del submit para descargar reporte
+    downloadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Validar que se haya seleccionado al menos un usuario
+        const checkboxes = userList.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkboxes.length === 0) {
+            showToast('Seleccione al menos un usuario', false);
+            shakeElement(userList);
+            return;
+        }
+        const userIds = Array.from(checkboxes).map(chk => chk.value);
+
+        // Validar fechas
+        const fechaInicio = fechaInicioInput.value;
+        const fechaFin = fechaFinInput.value;
+        if (!fechaInicio || !fechaFin) {
+            showToast('Seleccione fecha inicio y fecha fin', false);
+            if (!fechaInicio) shakeElement(fechaInicioInput);
+            if (!fechaFin) shakeElement(fechaFinInput);
+            return;
+        }
+        if (fechaInicio > fechaFin) {
+            showToast('La fecha inicio no puede ser mayor a la fecha fin', false);
+            shakeElement(fechaInicioInput);
+            shakeElement(fechaFinInput);
+            return;
+        }
+
+        // Mostrar overlay de carga
         loadingOverlay.style.display = 'flex';
-        setTimeout(() => {
+
+        try {
+            const params = new URLSearchParams();
+            userIds.forEach(id => params.append('userIds', id));
+            params.append('startDate', fechaInicio);
+            params.append('endDate', fechaFin);
+
+            console.log('Descargando reporte con params:', params.toString());
+
+            const resp = await fetch(`/api/admin/report?${params.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!resp.ok) {
+                const errorText = await resp.text();
+                throw new Error(errorText || 'Error al generar reporte');
+            }
+            const blob = await resp.blob();
+
+            // Descargar archivo
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `reporte_${fechaInicio}_a_${fechaFin}.xlsx`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error download:', error);
+            showToast('Error al generar reporte', false);
+        } finally {
             loadingOverlay.style.display = 'none';
-            showToast('Reporte descargado con éxito', true);
-        }, 2000);
+        }
     });
 });
