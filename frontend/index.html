@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Minimalista Responsivo</title>
+  <title>ContabXpert - Iniciar Sesión</title>
   <link rel="stylesheet" href="styles/index.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+          rel="stylesheet"
+  />
 </head>
 <body>
 <!-- Círculos de fondo (definidos en index.css) -->
@@ -17,48 +19,59 @@
 
 <main>
   <section class="form-section">
+    <!-- Tarjeta de formulario -->
     <div class="form-container">
+      <h2 class="form-title">Bienvenido a ContabXpert</h2>
+      <p class="form-subtitle">Gestiona tus operaciones de manera simple</p>
+
+      <!-- Pestañas -->
       <div class="form-tabs">
-        <button id="loginTab" class="active-tab">Login</button>
-        <button id="signupTab">Sign up</button>
+        <button id="loginTab" class="active-tab">Iniciar sesión</button>
+        <button id="signupTab">Crear cuenta</button>
       </div>
+
       <!-- Formulario de Login -->
       <form class="login-form">
         <div class="input-group">
           <span class="icon"><img src="icon/user.png" alt="User icon" /></span>
-          <input type="text" id="email" placeholder="Email o número de teléfono" required>
+          <input type="text" id="email" placeholder="Email o teléfono" required />
         </div>
         <div class="input-group">
           <span class="icon"><img src="icon/pass.png" alt="Password icon" /></span>
-          <input type="password" id="password" placeholder="••••••••" required>
+          <input type="password" id="password" placeholder="••••••••" required />
         </div>
-        <button type="submit" class="btn-primary">Login</button>
+        <button type="submit" class="btn-primary">Acceder</button>
       </form>
+
       <!-- Formulario de Sign up -->
       <form class="signup-form" style="display: none;">
         <div class="input-group">
           <span class="icon"><img src="icon/user.png" alt="User icon" /></span>
-          <input type="text" id="signupName" placeholder="Nombre completo" required>
+          <input type="text" id="signupName" placeholder="Nombre completo" required />
         </div>
         <div class="input-group">
           <span class="icon"><img src="icon/mail.png" alt="Mail icon" /></span>
-          <input type="email" id="signupEmail" placeholder="Correo electrónico" required>
+          <input type="email" id="signupEmail" placeholder="Correo electrónico" required />
         </div>
         <div class="input-group">
           <span class="icon"><img src="icon/pass.png" alt="Password icon" /></span>
-          <input type="password" id="signupPassword" placeholder="Crea tu contraseña" required>
+          <input type="password" id="signupPassword" placeholder="Crea tu contraseña" required />
         </div>
         <button type="submit" class="btn-primary">Crear cuenta</button>
       </form>
     </div>
-    <div class="illustration-container">
-      <img src="icon/laptop.png" alt="Laptop illustration" />
+
+    <!-- Contenedor con el logo en vez de la laptop -->
+    <div class="logo-illustration-container">
+      <img src="icon/logo_principal.png" alt="Logo ContabXpert" class="logo-illustration" />
     </div>
   </section>
 </main>
-<!-- Toast para notificaciones (usado para éxito) -->
+
+<!-- Toast para notificaciones -->
 <div id="toast" class="toast"></div>
-<!-- Cargar script de index -->
+
+<!-- Script principal -->
 <script src="js/index.js"></script>
 </body>
 </html>
