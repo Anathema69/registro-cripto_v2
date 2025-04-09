@@ -1,77 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ContabXpert - Iniciar Sesión</title>
   <link rel="stylesheet" href="styles/index.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-          rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
 </head>
+
 <body>
-<!-- Círculos de fondo (definidos en index.css) -->
-<div class="circle circle1"></div>
-<div class="circle circle2"></div>
-<div class="circle circle3"></div>
+  <!-- Background circles (defined in index.css) -->
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle3"></div>
 
-<main>
-  <section class="form-section">
-    <!-- Tarjeta de formulario -->
-    <div class="form-container">
-      <h2 class="form-title">Bienvenido a ContabXpert</h2>
-      <p class="form-subtitle">Gestiona tus operaciones de manera simple</p>
+  <main>
+    <section class="form-section">
 
-      <!-- Pestañas -->
-      <div class="form-tabs">
-        <button id="loginTab" class="active-tab">Iniciar sesión</button>
-        <button id="signupTab">Crear cuenta</button>
+      <!-- Form card -->
+      <div class="form-container">
+        <h2 class="form-title">Bienvenido a ContabXpert</h2>
+        <p class="form-subtitle">Gestiona tus operaciones de manera simple</p>
+
+        <!-- Tabs -->
+        <div class="form-tabs">
+          <button id="loginTab" class="active-tab">Iniciar sesión</button>
+          <button id="signupTab">Crear cuenta</button>
+        </div>
+
+        <!-- Login form -->
+        <form class="login-form">
+          <div class="input-group">
+            <span class="icon">
+              <img src="icon/user.png" alt="User icon" />
+            </span>
+            <input type="text" id="email" placeholder="Email o teléfono" required />
+          </div>
+
+          <div class="input-group">
+            <span class="icon">
+              <img src="icon/pass.png" alt="Password icon" />
+            </span>
+            <input type="password" id="password" placeholder="••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-primary">Acceder</button>
+        </form>
+
+        <!-- Signup form -->
+        <form class="signup-form" style="display: none;">
+          <div class="input-group">
+            <span class="icon">
+              <img src="icon/user.png" alt="User icon" />
+            </span>
+            <input type="text" id="signupName" placeholder="Nombre completo" required />
+          </div>
+
+          <div class="input-group">
+            <span class="icon">
+              <img src="icon/mail.png" alt="Mail icon" />
+            </span>
+            <input type="email" id="signupEmail" placeholder="Correo electrónico" required />
+          </div>
+
+          <div class="input-group">
+            <span class="icon">
+              <img src="icon/pass.png" alt="Password icon" />
+            </span>
+            <input type="password" id="signupPassword" placeholder="Crea tu contraseña" required />
+          </div>
+
+          <button type="submit" class="btn-primary">Crear cuenta</button>
+        </form>
       </div>
 
-      <!-- Formulario de Login -->
-      <form class="login-form">
-        <div class="input-group">
-          <span class="icon"><img src="icon/user.png" alt="User icon" /></span>
-          <input type="text" id="email" placeholder="Email o teléfono" required />
-        </div>
-        <div class="input-group">
-          <span class="icon"><img src="icon/pass.png" alt="Password icon" /></span>
-          <input type="password" id="password" placeholder="••••••••" required />
-        </div>
-        <button type="submit" class="btn-primary">Acceder</button>
-      </form>
+      <!-- Container with logo instead of laptop -->
+      <div class="logo-illustration-container">
+        <img src="icon/logo_principal.png" alt="ContabXpert Logo" class="logo-illustration" />
+      </div>
 
-      <!-- Formulario de Sign up -->
-      <form class="signup-form" style="display: none;">
-        <div class="input-group">
-          <span class="icon"><img src="icon/user.png" alt="User icon" /></span>
-          <input type="text" id="signupName" placeholder="Nombre completo" required />
-        </div>
-        <div class="input-group">
-          <span class="icon"><img src="icon/mail.png" alt="Mail icon" /></span>
-          <input type="email" id="signupEmail" placeholder="Correo electrónico" required />
-        </div>
-        <div class="input-group">
-          <span class="icon"><img src="icon/pass.png" alt="Password icon" /></span>
-          <input type="password" id="signupPassword" placeholder="Crea tu contraseña" required />
-        </div>
-        <button type="submit" class="btn-primary">Crear cuenta</button>
-      </form>
-    </div>
+    </section>
+  </main>
 
-    <!-- Contenedor con el logo en vez de la laptop -->
-    <div class="logo-illustration-container">
-      <img src="icon/logo_principal.png" alt="Logo ContabXpert" class="logo-illustration" />
-    </div>
-  </section>
-</main>
+  <!-- Toast for notifications -->
+  <div id="toast" class="toast"></div>
 
-<!-- Toast para notificaciones -->
-<div id="toast" class="toast"></div>
-
-<!-- Script principal -->
-<script src="js/index.js"></script>
+  <!-- Main script -->
+  <script src="js/index.js"></script>
 </body>
+
 </html>
