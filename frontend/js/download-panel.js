@@ -14,12 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
-    const userList = document.getElementById('userList');
-    const selectAllUsers = document.getElementById('selectAllUsers');
+    const userDropdown = document.getElementById('userDropdown');
+    const userDropdownHeader = document.getElementById('userDropdownHeader');
+    const userDropdownList = document.getElementById('userDropdownList');
+    const selectedUsersDisplay = document.getElementById('selectedUsersDisplay');
     const searchUser = document.getElementById('searchUser');
     const downloadForm = document.getElementById('downloadForm');
     const loadingOverlay = document.getElementById('loadingOverlay');
     const toast = document.getElementById('toast');
+
+    let allUsers = [];
+    const selectedUsers = new Map();
 
     function showToast(message, success = true) {
         toast.textContent = message;
@@ -31,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // Función para aplicar shake a un elemento
     function shakeElement(element) {
         element.classList.add('shake');
         setTimeout(() => {
@@ -39,12 +43,85 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 400);
     }
 
-    // Establecer por defecto la fecha de hoy en los inputs
-    const todayStr = new Date().toISOString().slice(0,10);
-    const fechaInicioInput = document.getElementById('fechaInicio');
-    const fechaFinInput = document.getElementById('fechaFin');
-    if (fechaInicioInput) fechaInicioInput.value = todayStr;
-    if (fechaFinInput) fechaFinInput.value = todayStr;
+    // Dropdown toggle
+    userDropdownHeader.addEventListener('click', () => {
+        userDropdownList.classList.toggle('show');
+        userDropdownHeader.focus();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!userDropdown.contains(e.target)) {
+            userDropdownList.classList.remove('show');
+        }
+    });
+
+    // Prevent dropdown from closing when interacting with list
+    userDropdownList.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    function createUserItem(user) {
+        const item = document.createElement('div');
+        item.classList.add('multi-select-dropdown-item');
+        item.dataset.userId = user._id;
+        item.textContent = user.fullName;
+
+        item.addEventListener('click', (e) => {
+            if (selectedUsers.has(user._id)) {
+                selectedUsers.delete(user._id);
+                item.classList.remove('selected');
+            } else {
+                selectedUsers.set(user._id, user.fullName);
+                item.classList.add('selected');
+            }
+            updateSelectedUsers();
+        });
+
+        return item;
+    }
+
+    function updateSelectedUsers() {
+        // Update header text
+        userDropdownHeader.textContent = selectedUsers.size > 0 
+            ? `${selectedUsers.size} usuario(s) seleccionado(s)` 
+            : 'Seleccione usuarios';
+
+        // Update dropdown list selection styles
+        const items = userDropdownList.querySelectorAll('.multi-select-dropdown-item');
+        items.forEach(item => {
+            const userId = item.dataset.userId;
+            if (selectedUsers.has(userId)) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        });
+
+        // Update selected users display
+        selectedUsersDisplay.innerHTML = '';
+        selectedUsers.forEach((name, id) => {
+            const tag = document.createElement('div');
+            tag.classList.add('selected-user-tag');
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = name;
+            
+            const removeSpan = document.createElement('span');
+            removeSpan.textContent = '×';
+            removeSpan.classList.add('selected-user-tag-remove');
+            removeSpan.addEventListener('click', () => {
+                selectedUsers.delete(id);
+                const userItem = userDropdownList.querySelector(`.multi-select-dropdown-item[data-user-id="${id}"]`);
+                if (userItem) userItem.classList.remove('selected');
+                updateSelectedUsers();
+            });
+
+            tag.appendChild(nameSpan);
+            tag.appendChild(removeSpan);
+            selectedUsersDisplay.appendChild(tag);
+        });
+    }
 
     // Cargar lista de usuarios
     async function loadUsers(filterText = '') {
@@ -55,20 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await resp.json();
             if (!resp.ok) throw new Error(data.message || 'Error al cargar usuarios');
 
-            userList.innerHTML = '';
+            userDropdownList.innerHTML = '';
+            allUsers = data;
             const lowerFilter = filterText.toLowerCase();
             const filtered = data.filter(u => u.fullName.toLowerCase().includes(lowerFilter));
 
-            filtered.forEach(u => {
-                const label = document.createElement('label');
-                label.classList.add('checkbox-container');
-                const input = document.createElement('input');
-                input.type = 'checkbox';
-                input.name = 'usuarios';
-                input.value = u._id; // se usa _id
-                label.appendChild(input);
-                label.append(' ' + u.fullName);
-                userList.appendChild(label);
+            filtered.forEach(user => {
+                const userItem = createUserItem(user);
+                userDropdownList.appendChild(userItem);
+
+                // Restore previously selected users
+                if (selectedUsers.has(user._id)) {
+                    userItem.classList.add('selected');
+                }
             });
         } catch (err) {
             console.error('Error loadUsers:', err);
@@ -79,25 +155,21 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
     searchUser.addEventListener('input', (e) => loadUsers(e.target.value));
 
-    selectAllUsers.addEventListener('change', (e) => {
-        const checkboxes = userList.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(chk => { chk.checked = e.target.checked; });
-    });
-
-    // Manejo del submit para descargar reporte
+    // Existing download form submit handler remains the same as in the previous version
     downloadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Validar que se haya seleccionado al menos un usuario
-        const checkboxes = userList.querySelectorAll('input[type="checkbox"]:checked');
-        if (checkboxes.length === 0) {
+        if (selectedUsers.size === 0) {
             showToast('Seleccione al menos un usuario', false);
-            shakeElement(userList);
+            shakeElement(userDropdown);
             return;
         }
-        const userIds = Array.from(checkboxes).map(chk => chk.value);
+        const userIds = Array.from(selectedUsers.keys());
 
         // Validar fechas
+        const fechaInicioInput = document.getElementById('fechaInicio');
+        const fechaFinInput = document.getElementById('fechaFin');
         const fechaInicio = fechaInicioInput.value;
         const fechaFin = fechaFinInput.value;
         if (!fechaInicio || !fechaFin) {

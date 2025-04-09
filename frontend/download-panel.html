@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Descargar Reportes</title>
     <link rel="stylesheet" href="styles/download-panel.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
 <div class="download-container">
@@ -12,13 +13,13 @@
         <nav>
             <ul>
                 <li>
-                    <button class="active" id="crearUsuariosBtn">
+                    <button onclick="window.location.href='admin-panel.html'">
                         <img src="icon/panel_new_user.png" class="sidebar-icon" alt="Crear Usuario">
                         Crear nuevos usuarios
                     </button>
                 </li>
                 <li>
-                    <button id="descargarReportesBtn">
+                    <button class="active">
                         <img src="icon/panel_download.png" class="sidebar-icon" alt="Descargar Reportes">
                         Descargar reportes
                     </button>
@@ -40,13 +41,15 @@
                 <input type="text" id="searchUser" placeholder="Escribe para filtrar usuarios...">
 
                 <label>Seleccionar Usuarios:</label>
-                <label>
-                    <input type="checkbox" id="selectAllUsers">
-                    Seleccionar todos
-                </label>
-                <div class="multi-select-container" id="userList">
-                    <!-- Se llenará dinámicamente con checkboxes para cada usuario -->
+                <div class="multi-select-dropdown" id="userDropdown">
+                    <div tabindex="0" class="multi-select-dropdown-header" id="userDropdownHeader">
+                        Seleccione usuarios
+                    </div>
+                    <div class="multi-select-dropdown-list" id="userDropdownList">
+                        <!-- Users will be dynamically added here -->
+                    </div>
                 </div>
+                <div id="selectedUsersDisplay" class="selected-users-display"></div>
 
                 <div class="date-range">
                     <div class="date-field">
