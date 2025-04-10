@@ -265,28 +265,30 @@ body {
     z-index: 1000;
 }
 
-/* Existing CSS remains the same, adding responsive adjustments */
 
 /* RESPONSIVE DESIGN IMPROVEMENTS */
 @media (max-width: 1024px) {
     /* Tablet Styles */
     .admin-container {
-        flex-direction: column;
+        flex-direction: row; 
     }
 
     .admin-sidebar {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 1rem;
+        width: 220px; 
+        height: 100vh; 
+        flex-direction: column; 
+        padding: 1rem 0.5rem;
+    }
+
+    .admin-sidebar h2 {
+        font-size: 1.2rem; 
+        margin-bottom: 1.5rem;
     }
 
     .admin-sidebar nav ul {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column; 
         gap: 0.5rem;
-        justify-content: center;
     }
 
     .admin-sidebar button {
@@ -296,12 +298,6 @@ body {
 
     .admin-content {
         padding: 1rem;
-    }
-
-    .admin-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
     }
 
     .admin-section {
@@ -321,22 +317,68 @@ body {
 
 /* Mobile Styles */
 @media (max-width: 600px) {
-    .admin-sidebar {
-        flex-direction: column;
-        align-items: stretch;
+    .admin-container {
+        flex-direction: row; 
     }
+    
+    .admin-sidebar {
+        width: 60px; 
+        flex-direction: column;
+        align-items: center;
+        z-index: 10; 
+    }
+    
+    .admin-sidebar h2 {
+        font-size: 0; 
+        margin-bottom: 1rem;
+    }
+    
 
     .admin-sidebar nav ul {
         flex-direction: column;
+        align-items: center;
     }
 
     .admin-sidebar button {
         justify-content: center;
         text-align: center;
+        padding: 0.5rem;
+    }
+    
+    .admin-sidebar button span {
+        display: none; 
+    }
+    
+    .sidebar-icon {
+        margin-right: 0;
+        width: 28px;
+        height: 28px;
+    }
+    
+
+    .admin-sidebar button:hover::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 70px;
+        background: var(--color-gold-dark);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        z-index: 20;
     }
 
-    .sidebar-icon {
-        margin-right: 0.5rem;
+    .admin-content {
+        width: calc(100% - 60px); 
+    }
+
+    .admin-header {
+        padding: 0.75rem;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.1rem;
     }
 
     .input-group {
@@ -361,18 +403,29 @@ body {
     }
 }
 
-/* Additional Mobile Typography Adjustments */
-@media (max-width: 480px) {
-    body {
-        font-size: 14px;
+/* Para dispositivos muy pequeños */
+@media (max-width: 400px) {
+    .admin-sidebar {
+        width: 50px; 
     }
-
-    .admin-header h1 {
-        font-size: 1.2rem;
+    
+    .admin-content {
+        width: calc(100% - 50px);
+        padding: 0.75rem;
     }
-
+    
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
     .btn-logout {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .admin-form {
+        padding: 1rem;
     }
 }
