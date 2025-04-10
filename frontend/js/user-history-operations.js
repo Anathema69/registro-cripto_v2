@@ -53,6 +53,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 5) Referencia a la tabla
     const operationsTable = document.getElementById('operationsTable');
     const operationsTableBody = operationsTable ? operationsTable.querySelector('tbody') : null;
+    
+    // 5.1) Crear contenedor para vista de tarjetas
+    let cardViewContainer = document.querySelector('.card-view');
+    if (!cardViewContainer) {
+        cardViewContainer = document.createElement('div');
+        cardViewContainer.className = 'card-view';
+        const tableContainer = document.querySelector('.table-container');
+        if (tableContainer) {
+            tableContainer.appendChild(cardViewContainer);
+        }
+    }
 
     // (MODAL) Referencias al modal
     const receiptModal = document.getElementById('receiptModal');
@@ -94,12 +105,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            // Limpia la tabla
+            // Limpia la tabla y vista de tarjetas
             if (operationsTableBody) {
                 operationsTableBody.innerHTML = '';
             }
+            if (cardViewContainer) {
+                cardViewContainer.innerHTML = '';
+            }
 
-            // Rellena la tabla
+            // Obtener los encabezados de la tabla
+            const tableHeaders = [];
+            if (operationsTable) {
+                const headerRow = operationsTable.querySelector('thead tr');
+                if (headerRow) {
+                    headerRow.querySelectorAll('th').forEach(th => {
+                        tableHeaders.push(th.textContent.trim());
+                    });
+                }
+            }
+
+            // Rellena la tabla y la vista de tarjetas
             data.forEach((op, idx) => {
                 console.log(`6.3) operation[${idx}]:`, op);
                 const fechaRegistro = op.createdAt ? new Date(op.createdAt).toLocaleString() : '-';
@@ -114,28 +139,112 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const total = op.total != null ? op.total : '-';
                 const receiptImage = op.receiptImage || '';
 
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-          <td>${fechaRegistro}</td>
-          <td>${fechaUsuario}</td>
-          <td>${cuentaDestino}</td>
-          <td>${canal}</td>
-          <td>${tipoActivo}</td>
-          <td>${activo}</td>
-          <td>${moneda}</td>
-          <td>${monto}</td>
-          <td>${cantidad}</td>
-          <td>${total}</td>
-          <td>
-            <button class="btn-view-receipt" data-image="${receiptImage}">
-              Ver imagen
-            </button>
-          </td>
-        `;
-                operationsTableBody.appendChild(tr);
+                // Llenar tabla normal
+                if (operationsTableBody) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td data-label="Fecha registro">${fechaRegistro}</td>
+                        <td data-label="Fecha usuario">${fechaUsuario}</td>
+                        <td data-label="Cuenta destino">${cuentaDestino}</td>
+                        <td data-label="Canal">${canal}</td>
+                        <td data-label="Tipo">${tipoActivo}</td>
+                        <td data-label="Activo">${activo}</td>
+                        <td data-label="Moneda">${moneda}</td>
+                        <td data-label="Monto">${monto}</td>
+                        <td data-label="Cantidad">${cantidad}</td>
+                        <td data-label="Total">${total}</td>
+                        <td data-label="Constancia">
+                            <button class="btn-view-receipt" data-image="${receiptImage}">
+                                Ver imagen
+                            </button>
+                        </td>
+                    `;
+                    operationsTableBody.appendChild(tr);
+                }
+
+                // Crear tarjeta para vista móvil
+                if (cardViewContainer) {
+                    const card = document.createElement('div');
+                    card.className = 'operation-card';
+                    
+                    // Encabezado de la tarjeta
+                    const cardHeader = document.createElement('div');
+                    cardHeader.className = 'operation-card-header';
+                    
+                    const dateHeading = document.createElement('div');
+                    dateHeading.className = 'operation-card-date';
+                    dateHeading.textContent = `Fecha: ${fechaRegistro}`;
+                    
+                    const idHeading = document.createElement('div');
+                    idHeading.className = 'operation-card-id';
+                    idHeading.textContent = `#${idx + 1}`;
+                    
+                    cardHeader.appendChild(dateHeading);
+                    cardHeader.appendChild(idHeading);
+                    
+                    // Contenido de la tarjeta
+                    const cardContent = document.createElement('div');
+                    cardContent.className = 'operation-card-content';
+                    
+                    // Crear campos con sus etiquetas
+                    const fields = [
+                        { label: 'Fecha usuario', value: fechaUsuario },
+                        { label: 'Cuenta destino', value: cuentaDestino },
+                        { label: 'Canal', value: canal },
+                        { label: 'Tipo', value: tipoActivo },
+                        { label: 'Activo', value: activo },
+                        { label: 'Moneda', value: moneda },
+                        { label: 'Monto', value: monto },
+                        { label: 'Cantidad', value: cantidad },
+                        { label: 'Total', value: total }
+                    ];
+                    
+                    fields.forEach(field => {
+                        const fieldEl = document.createElement('div');
+                        fieldEl.className = 'operation-field';
+                        
+                        const labelEl = document.createElement('div');
+                        labelEl.className = 'field-label';
+                        labelEl.textContent = field.label;
+                        
+                        const valueEl = document.createElement('div');
+                        valueEl.className = 'field-value';
+                        valueEl.textContent = field.value;
+                        
+                        fieldEl.appendChild(labelEl);
+                        fieldEl.appendChild(valueEl);
+                        cardContent.appendChild(fieldEl);
+                    });
+                    
+                    // Agregar botón de constancia
+                    const fieldEl = document.createElement('div');
+                    fieldEl.className = 'operation-field';
+                    
+                    const labelEl = document.createElement('div');
+                    labelEl.className = 'field-label';
+                    labelEl.textContent = 'Constancia';
+                    
+                    const valueEl = document.createElement('div');
+                    valueEl.className = 'field-value';
+                    
+                    const buttonEl = document.createElement('button');
+                    buttonEl.className = 'btn-view-receipt';
+                    buttonEl.setAttribute('data-image', receiptImage);
+                    buttonEl.textContent = 'Ver imagen';
+                    
+                    valueEl.appendChild(buttonEl);
+                    fieldEl.appendChild(labelEl);
+                    fieldEl.appendChild(valueEl);
+                    cardContent.appendChild(fieldEl);
+                    
+                    // Ensamblar tarjeta
+                    card.appendChild(cardHeader);
+                    card.appendChild(cardContent);
+                    cardViewContainer.appendChild(card);
+                }
             });
 
-            // (MODAL) Manejar clic en "Ver imagen"
+            // (MODAL) Manejar clic en "Ver imagen" (para ambas vistas)
             const btnsView = document.querySelectorAll('.btn-view-receipt');
             btnsView.forEach(btn => {
                 const imgPath = btn.getAttribute('data-image');
@@ -165,21 +274,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 7) Llamar a la carga
     await loadOperations();
 
-    function validateStep(stepIndex) {
-        const step = steps[stepIndex];
-        const requiredInputs = step.querySelectorAll('input[required], select[required]');
-        let valid = true;
-        requiredInputs.forEach(input => {
-            input.classList.remove('error-input');
-            if (!input.value) {
-                valid = false;
-                input.classList.add('error-input');
-            }
-        });
-        if (!valid) {
-            showToast(`Complete los campos requeridos en el paso ${stepIndex + 1}`, false);
+    // 8) Detección de tamaño de pantalla para cambiar entre vistas
+    function handleViewportChange() {
+        const viewportWidth = window.innerWidth;
+        
+        // Ajustar tabla/tarjetas según el ancho
+        if (viewportWidth <= 768) { // Para móviles y tablets pequeños
+            if (operationsTable) operationsTable.style.display = 'none';
+            if (cardViewContainer) cardViewContainer.style.display = 'block';
+        } else {
+            if (operationsTable) operationsTable.style.display = 'table';
+            if (cardViewContainer) cardViewContainer.style.display = 'none';
         }
-        return valid;
     }
 
+    // Ejecutar inicialmente
+    handleViewportChange();
+    
+    // Escuchar cambios en el tamaño de ventana
+    window.addEventListener('resize', handleViewportChange);
+
+    // 9) Añadir elemento de toast si no existe
+    if (!toast) {
+        const toastElement = document.createElement('div');
+        toastElement.id = 'toast';
+        toastElement.className = 'toast';
+        document.body.appendChild(toastElement);
+    }
 });

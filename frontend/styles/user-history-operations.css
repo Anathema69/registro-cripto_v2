@@ -6,6 +6,9 @@
     --color-black-deep: #fdfdfd;
     --color-black-soft: #ffffff;
     --transition-smooth: all 0.3s ease-in-out;
+    --sidebar-width: 280px;
+    --sidebar-width-tablet: 200px;
+    --sidebar-width-mobile: 160px;
 }
 
 * {
@@ -32,13 +35,17 @@ body {
 }
 
 .admin-sidebar {
-    width: 280px;
+    width: var(--sidebar-width);
     background: var(--color-gold-primary);
     padding: 2rem 1rem;
     border-right: 2px solid var(--color-gold-primary);
     display: flex;
     flex-direction: column;
     transition: var(--transition-smooth);
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 .admin-sidebar h2 {
@@ -75,6 +82,7 @@ body {
     height: 24px;
     filter: brightness(0.8) grayscale(0.5);
     transition: var(--transition-smooth);
+    flex-shrink: 0;
 }
 
 .admin-sidebar button:hover,
@@ -96,6 +104,7 @@ body {
     padding: 2rem;
     background: linear-gradient(to bottom right, var(--color-black-soft), var(--color-black-deep));
     overflow-y: auto;
+    width: calc(100% - var(--sidebar-width));
 }
 
 .admin-header {
@@ -136,6 +145,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow-x: auto;
+    width: 100%;
 }
 
 #operationsTable {
@@ -146,13 +156,16 @@ body {
 
 #operationsTable thead {
     background: rgba(10, 191, 197, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 #operationsTable th,
 #operationsTable td {
     padding: 0.5rem;
     text-align: left;
-    border-bottom: 1px solid  rgb(0, 0, 0);
+    border-bottom: 1px solid rgb(0, 0, 0);
     color: var(--color-silver-dark);
     white-space: normal;
     word-break: break-word;
@@ -187,17 +200,17 @@ body {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 20;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: linear-gradient(135deg, var(--color-black-deep), var(--color-black-soft));
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
-    background: rgba(255, 255, 255, 0.8);
+    background: #ffffff;
     margin: 10% auto;
     padding: 2rem;
     border: 1px solid var(--color-gold-primary);
@@ -206,7 +219,7 @@ body {
     max-width: 600px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    color: var(--color-silver-light);
+    color: var(--color-silver-dark);
 }
 
 .modal-close {
@@ -224,119 +237,209 @@ body {
     color: var(--color-gold-dark);
 }
 
+/* Estilos de tarjeta para vista móvil */
+.card-view {
+    display: none;
+}
+
+.operation-card {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    break-inside: avoid;
+}
+
+.operation-card-header {
+    background: var(--color-gold-primary);
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.operation-card-date {
+    font-size: 0.9rem;
+}
+
+.operation-card-content {
+    padding: 15px;
+}
+
+.operation-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.operation-field:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.field-label {
+    font-weight: 600;
+    color: var(--color-gold-dark);
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+}
+
+.field-value {
+    color: #333;
+}
+
+/* Toast styles */
+.toast {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 5px;
+    color: white;
+    z-index: 100;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-success {
+    background-color: var(--color-gold-primary);
+}
+
+.toast-error {
+    background-color: #d9534f;
+}
+
+.show-toast {
+    opacity: 1;
+    transform: translate(-50%, -10px);
+}
+
 /* Responsive Styles */
-@media (max-width: 1024px) { /* Tablets and small screens */
-    .admin-container {
-        flex-direction: column;
+@media (max-width: 1200px) {
+    .admin-content {
+        padding: 1.5rem;
     }
-
-    .admin-sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-    }
-
-    .table-container {
-        overflow-x: auto;
-    }
-
-    #operationsTable {
-        display: block;
-    }
-
-    #operationsTable thead {
-        display: none; /* Hide header in tablets */
-    }
-
-    #operationsTable tbody,
-    #operationsTable tr,
+    
+    #operationsTable th,
     #operationsTable td {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    #operationsTable td {
-        border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        position: relative;
-        padding-left: 50%;
-        text-align: left;
-        font-size: 1rem;
-        padding: 0.6rem;
-    }
-
-    #operationsTable td:before {
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-        color: var(--color-gold-primary);
-        content: attr(data-label); /* Show column name */
-    }
-
-    #operationsTable td:last-child {
-        border-bottom: 2px solid var(--color-gold-primary);
-    }
-
-    .btn-view-receipt {
-        display: block;
-        margin: 1rem auto;
-        padding: 0.6rem 1rem;
-        font-size: 1rem;
+        padding: 0.5rem 0.3rem;
+        font-size: 0.9rem;
     }
 }
 
-@media (max-width: 600px) { /* Mobile devices */
+@media (max-width: 992px) {
     .admin-sidebar {
-        flex-direction: column;
-        align-items: center;
+        width: var(--sidebar-width-tablet);
     }
-
+    
+    .admin-content {
+        width: calc(100% - var(--sidebar-width-tablet));
+        padding: 1.5rem 1rem;
+    }
+    
+    .admin-sidebar h2 {
+        font-size: 1.1rem;
+    }
+    
     .admin-sidebar button {
-        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.6rem 0.75rem;
+    }
+    
+    /* Cambiar a vista de tarjetas en tablet */
+    #operationsTable {
+        display: none;
+    }
+    
+    .card-view {
+        display: block;
+    }
+    
+    .table-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: var(--sidebar-width-mobile);
+    }
+    
+    .admin-content {
+        width: calc(100% - var(--sidebar-width-mobile));
+        padding: 1rem 0.75rem;
+    }
+    
+    .admin-sidebar h2 {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .admin-sidebar button {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.1rem;
         text-align: center;
     }
-
+    
     .table-container {
-        overflow-x: auto;
+        max-width: 100%;
     }
-
+    
+    /* Mantener vista de tarjetas */
     #operationsTable {
+        display: none;
+    }
+    
+    .card-view {
         display: block;
     }
+}
 
-    #operationsTable thead {
-        display: none; /* Hide header in mobile */
+@media (max-width: 480px) {
+    .admin-sidebar {
+        padding: 1.2rem 0.5rem;
     }
-
-    #operationsTable tbody,
-    #operationsTable tr,
-    #operationsTable td {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0.5rem; /* Add padding for better spacing */
+    
+    .admin-sidebar button {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.7rem;
     }
-
-    #operationsTable td {
-        border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        text-align: left;
+    
+    .sidebar-icon {
+        width: 20px;
+        height: 20px;
     }
-
-    #operationsTable td strong {
-        display: block; /* Display header on a new line */
-        font-weight: bold;
-        color: var(--color-gold-primary);
-        margin-bottom: 0.2rem; /* Add some space between header and value */
+    
+    .admin-content {
+        padding: 0.75rem 0.5rem;
     }
-
-    .btn-view-receipt {
-        display: block;
-        margin: 1rem auto;
+    
+    .table-container {
+        border-radius: 8px;
+    }
+    
+    .operation-card-content {
+        padding: 10px;
     }
 }
