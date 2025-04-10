@@ -5,10 +5,8 @@
   <title>Registrar Operaciones</title>
   <link rel="stylesheet" href="styles/user-operations.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-          rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
 <div class="operations-container">
@@ -152,8 +150,8 @@
                   <select id="moneda" class="icon-select" data-default-icon="icon/currencies/blank.png" required>
                     <option value="" data-icon="icon/currencies/blank.png">Seleccione...</option>
                     <option value="COP" data-icon="icon/currencies/cop.png">COP</option>
-                    <option value="USD" data-icon="icon/currencies/usd.png">USD</option>
-                    <option value="PEN" data-icon="icon/currencies/pen.png">PEN</option>
+                    <option value="USD" data-icon="icon/currencies/USD.png">USD</option>
+                    <option value="PEN" data-icon="icon/currencies/PEN.png">PEN</option>
                     <option value="ARS" data-icon="icon/currencies/ars.png">ARS</option>
                     <option value="CLP" data-icon="icon/currencies/clp.png">CLP</option>
                   </select>
@@ -168,11 +166,11 @@
                   <label for="cantidad">Cantidad:</label>
                   <input type="number" id="cantidad" placeholder="Ej. 100" required />
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="total-group">
                   <label for="total">Total:</label>
                   <input type="number" step="0.01" id="total" placeholder="Automático" readonly />
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="comision-group">
                   <label for="comision">Comisión:</label>
                   <input type="number" step="0.01" id="comision" placeholder="Ej. 0.50" required />
                 </div>
