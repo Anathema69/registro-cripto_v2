@@ -419,3 +419,108 @@ body {
         font-size: 0.9rem;
     }
 }
+
+/* Estilos para las fechas en download-panel.css (similar a user-panel) */
+.date-range {
+    display: flex;
+    gap: 15px; /* Espacio entre los dos bloques de fecha */
+    margin-bottom: 20px; /* Espacio debajo de los campos de fecha */
+    width: 100%; /* Asegura que ocupe el ancho del contenedor */
+}
+
+.date-field {
+    flex: 1; /* Permite que ambos bloques de fecha crezcan por igual */
+}
+
+.date-field label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555; /* Un color de etiqueta similar */
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.date-separate {
+    display: flex;
+    gap: 5px; /* Espacio entre día, mes y año */
+    width: 100%;
+}
+
+.date-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box; /* Importante para el manejo del padding y el border */
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: var(--color-gold-primary); /* Usando tu color primario */
+    box-shadow: 0 0 5px rgba(45, 165, 158, 0.5); /* Sombra similar al focus */
+}
+
+.custom-month-select {
+    position: relative;
+    flex: 2; /* Ocupa más espacio que día/año para el mes */
+}
+
+.custom-month-trigger {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #333;
+    text-align: left;
+    background-color: #fff;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-month-trigger:focus {
+    outline: none;
+    border-color: var(--color-gold-primary);
+    box-shadow: 0 0 5px rgba(45, 165, 158, 0.5);
+}
+
+.custom-month-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    z-index: 10;
+    display: none;
+    overflow-y: auto;
+    max-height: 150px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-month-dropdown.open {
+    display: block;
+}
+
+.custom-month-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 1em;
+    color: #333;
+    cursor: pointer;
+}
+
+.custom-month-dropdown button:hover {
+    background-color: #f0f0f0;
+}

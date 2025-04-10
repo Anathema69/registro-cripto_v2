@@ -102,15 +102,33 @@
                     />
                 </div>
 
-                <!-- Fecha de nacimiento -->
-                <div class="input-group">
+                <div class="input-group date-birth-group">
                     <label for="birthDate">Fecha de nacimiento</label>
-                    <input
-                            type="date"
-                            id="birthDate"
-                            placeholder="dd/mm/aaaa"
-                            required
-                    />
+                    <div class="date-separate">
+                        <input type="number" id="birthDia" placeholder="DD" min="1" max="31" class="date-input" />
+                        <div class="custom-month-select">
+                            <button type="button" class="custom-month-trigger">
+                                <span id="selectedBirthMonth">Mes</span>
+                               
+                            </button>
+                            <div class="custom-month-dropdown">
+                                <button type="button" data-value="1">Enero</button>
+                                <button type="button" data-value="2">Febrero</button>
+                                <button type="button" data-value="3">Marzo</button>
+                                <button type="button" data-value="4">Abril</button>
+                                <button type="button" data-value="5">Mayo</button>
+                                <button type="button" data-value="6">Junio</button>
+                                <button type="button" data-value="7">Julio</button>
+                                <button type="button" data-value="8">Agosto</button>
+                                <button type="button" data-value="9">Septiembre</button>
+                                <button type="button" data-value="10">Octubre</button>
+                                <button type="button" data-value="11">Noviembre</button>
+                                <button type="button" data-value="12">Diciembre</button>
+                            </div>
+                        </div>
+                        <input type="number" id="birthAnio" placeholder="AAAA" min="1900" max="2100" class="date-input" />
+                    </div>
+                    <input type="hidden" id="birthMesHidden" name="birthMes">
                 </div>
 
                 <!-- Botón de enviar -->

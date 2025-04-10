@@ -245,35 +245,57 @@
           </div>
         </div>
 
-        <!-- Paso 4: Datos de Pago -->
         <div class="step-content" id="step4" style="display: none;">
           <h3>Datos de Pago</h3>
           <div class="input-group">
-            <label for="cuentaOrigen">Cuenta Origen:</label>
-            <input type="text" id="cuentaOrigen" placeholder="La cuenta del usuario" readonly />
+              <label for="cuentaOrigen">Cuenta Origen:</label>
+              <input type="text" id="cuentaOrigen" placeholder="La cuenta del usuario" readonly />
           </div>
           <div class="input-group">
-            <label for="cuentaDestino">Cuenta Destino:</label>
-            <input type="number" id="cuentaDestino" placeholder="Número de cuenta destino" required />
+              <label for="cuentaDestino">Cuenta Destino:</label>
+              <input type="number" id="cuentaDestino" placeholder="Número de cuenta destino" required />
           </div>
           <div class="input-group">
-            <label for="referenciaPago">Referencia:</label>
-            <input type="text" id="referenciaPago" placeholder="Referencia del pago" required />
+              <label for="referenciaPago">Referencia:</label>
+              <input type="text" id="referenciaPago" placeholder="Referencia del pago" required />
           </div>
           <div class="input-group">
-            <label for="estadoPago">Estado:</label>
-            <input type="text" id="estadoPago" placeholder="Estado del pago" required />
+              <label for="estadoPago">Estado:</label>
+              <input type="text" id="estadoPago" placeholder="Estado del pago" required />
           </div>
           <div class="input-group">
-            <label for="fechaPago">Fecha:</label>
-            <input type="date" id="fechaPago" required />
+              <label for="fechaPago">Fecha:</label>
+              <div class="date-separate">
+                  <input type="text" id="fechaPagoDia" placeholder="DD" class="date-input" maxlength="2">
+                  <div class="custom-month-select">
+                      <button type="button" class="custom-month-trigger">
+                          <span id="selectedFechaPagoMes">Mes</span>
+                      </button>
+                      <div class="custom-month-dropdown">
+                          <button type="button" data-value="1">Enero</button>
+                          <button type="button" data-value="2">Febrero</button>
+                          <button type="button" data-value="3">Marzo</button>
+                          <button type="button" data-value="4">Abril</button>
+                          <button type="button" data-value="5">Mayo</button>
+                          <button type="button" data-value="6">Junio</button>
+                          <button type="button" data-value="7">Julio</button>
+                          <button type="button" data-value="8">Agosto</button>
+                          <button type="button" data-value="9">Septiembre</button>
+                          <button type="button" data-value="10">Octubre</button>
+                          <button type="button" data-value="11">Noviembre</button>
+                          <button type="button" data-value="12">Diciembre</button>
+                      </div>
+                  </div>
+                  <input type="text" id="fechaPagoAnio" placeholder="AAAA" class="date-input" maxlength="4">
+                  <input type="hidden" id="fechaPagoMesHidden">
+              </div>
           </div>
-
-          <!-- (OPCIONAL) Subir imagen de constancia -->
+      
           <div class="input-group">
-            <label for="receiptImage">Constancia de Pago (opcional):</label>
-            <input type="file" id="receiptImage" accept="image/*" />
+              <label for="receiptImage">Constancia de Pago (opcional):</label>
+              <input type="file" id="receiptImage" accept="image/*" />
           </div>
+      </div>
 
           <div class="buttons-group">
             <button type="button" class="btn-secondary" id="btnPrev4">Anterior</button>

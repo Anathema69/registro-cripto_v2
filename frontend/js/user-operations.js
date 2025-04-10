@@ -1,6 +1,3 @@
-/*******************************************************
- * File: user-operations.js
- ******************************************************/
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM loaded -> user-operations.js');
 
@@ -219,12 +216,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             formData.append('terceroTipoID', document.getElementById('terceroTipoID').value);
             formData.append('terceroDocumento', document.getElementById('terceroDocumento').value);
 
-            // Paso 4
+            // Paso 4 - **MODIFICACIÓN AQUÍ PARA LA FECHA**
+            const fechaPagoDiaInput = document.getElementById('fechaPagoDia');
+            const fechaPagoMesHidden = document.getElementById('fechaPagoMesHidden');
+            const fechaPagoAnioInput = document.getElementById('fechaPagoAnio');
+
+            const dia = fechaPagoDiaInput.value;
+            const mes = fechaPagoMesHidden.value;
+            const anio = fechaPagoAnioInput.value;
+
+            if (!dia || !mes || !anio) {
+                showToast('Por favor, seleccione una fecha completa', false);
+                loadingOverlay.style.display = 'none';
+                return;
+            }
+
+            formData.append('fecha', `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
             formData.append('cuentaOrigen', cuentaOrigenInput.value);
             formData.append('cuentaDestino', document.getElementById('cuentaDestino').value);
             formData.append('referenciaPago', document.getElementById('referenciaPago').value);
             formData.append('estadoPago', document.getElementById('estadoPago').value);
-            formData.append('fecha', document.getElementById('fechaPago').value);
 
             // Imagen opcional
             const receiptImageInput = document.getElementById('receiptImage');
@@ -254,6 +265,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     operationsForm.reset();
                     goToStep(0);
                     iconSelects.forEach(s => updateSelectIcon(s));
+                    // **RESETEAR EL TEXTO DEL SELECTOR DE MES**
+                    const selectedFechaPagoMes = document.getElementById('selectedFechaPagoMes');
+                    if (selectedFechaPagoMes) {
+                        selectedFechaPagoMes.textContent = 'Mes';
+                    }
+                    const fechaPagoMesHiddenInput = document.getElementById('fechaPagoMesHidden');
+                    if (fechaPagoMesHiddenInput) {
+                        fechaPagoMesHiddenInput.value = '';
+                    }
 
                     setTimeout(() => {
                         successOverlay.style.display = 'none';
@@ -269,4 +289,33 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
+    // **SELECTOR DE MES CUSTOMIZADO**
+    const fechaPagoMonthSelect = document.querySelector('#step4 .custom-month-select');
+    const fechaPagoMonthTrigger = fechaPagoMonthSelect.querySelector('.custom-month-trigger');
+    const fechaPagoMonthDropdown = fechaPagoMonthSelect.querySelector('.custom-month-dropdown');
+    const selectedFechaPagoMesSpan = document.getElementById('selectedFechaPagoMes');
+    const fechaPagoMesHiddenInput = document.getElementById('fechaPagoMesHidden');
+
+    fechaPagoMonthTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fechaPagoMonthDropdown.classList.toggle('open');
+        fechaPagoMonthTrigger.focus();
+    });
+
+    fechaPagoMonthDropdown.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const monthValue = e.target.dataset.value;
+            const monthName = e.target.textContent;
+            selectedFechaPagoMesSpan.textContent = monthName;
+            fechaPagoMesHiddenInput.value = monthValue;
+            fechaPagoMonthDropdown.classList.remove('open');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!fechaPagoMonthSelect.contains(e.target)) {
+            fechaPagoMonthDropdown.classList.remove('open');
+        }
+    });
 });

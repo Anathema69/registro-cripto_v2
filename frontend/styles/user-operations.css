@@ -663,3 +663,238 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 1.1rem;
   }
 }
+
+
+.date-birth-group {
+  margin-bottom: 1.5rem;
+
+}
+
+.date-separate {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.date-input,
+.custom-month-select,
+.custom-month-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background: rgb(255, 255, 255); /* Fondo blanco */
+  border: 2px solid var(--color-silver-dark); /* Borde negro */
+  border-radius: 8px;
+  color: var(--color-silver-dark); /* Texto negro */
+  padding: 5px;
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  flex: 1;
+  min-width: 0; /* Permite que los elementos se distribuyan */
+  text-align: center; /* Centrar texto en los inputs numéricos */
+  margin: auto;
+}
+
+.custom-month-select {
+  flex: 1;
+  position: relative; /* Necesario para posicionar el dropdown */
+  /* Quitamos los estilos de fondo y borde que estaban aquí */
+  background-color: transparent;
+  border: none;
+}
+
+.custom-month-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background: rgb(255, 255, 255); /* Fondo blanco */
+  border: 2px solid var(--color-silver-dark); /* Borde negro */
+  border-radius: 8px;
+  color: var(--color-silver-dark); /* Texto negro */
+  padding: 0.75rem 1rem; /* Reemplacé el padding anterior */
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.75rem) center;
+  padding-right: 2rem;
+  width: 100%; /* Aseguramos que ocupe el ancho del contenedor */
+  cursor: pointer;
+}
+
+.date-input:focus,
+.custom-month-trigger:focus {
+  border-color: var(--color-gold-primary);
+  outline: none;
+  box-shadow: 0 0 10px rgba(45, 165, 158, 0.3);
+}
+
+.custom-month-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: rgb(255, 255, 255); /* Fondo blanco */
+  border: 2px solid var(--color-silver-dark); /* Borde negro */
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  z-index: 10;
+  display: none;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.custom-month-dropdown.open {
+  display: block;
+}
+
+.custom-month-dropdown button {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border: none;
+  color: var(--color-silver-dark); /* Texto negro */
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.custom-month-dropdown button:hover {
+  background-color: rgba(45, 165, 158, 0.2); /* Hover verde agua */
+}
+
+
+
+
+
+
+
+/* Estilos específicos para móvil */
+/* Estilos específicos para móvil */
+@media (max-width: 480px) {
+  .date-separate {
+      flex-direction: column;
+      gap: 0.25rem;
+  }
+
+  .date-input {
+      padding: 0.5rem;
+      font-size: 0.85rem;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .custom-month-select {
+      position: relative; /* Para el posicionamiento absoluto del dropdown */
+      width: 100%; /* Forzamos el ancho completo */
+      box-sizing: border-box; /* Incluimos padding y borde en el ancho */
+  }
+
+  .custom-month-trigger {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: rgb(255, 255, 255);
+      border: 2px solid var(--color-silver-dark);
+      border-radius: 8px;
+      color: var(--color-silver-dark);
+      padding: 0.5rem; /* Ajustamos el padding para móvil */
+      font-size: 0.85rem;
+      transition: var(--transition-smooth);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+      background-repeat: no-repeat;
+      background-position: calc(100% - 0.5rem) center;
+      padding-right: 1.5rem;
+      width: 100%; /* Aseguramos que ocupe el ancho del contenedor select */
+      cursor: pointer;
+      box-sizing: border-box; /* Incluimos padding y borde en el ancho */
+  }
+
+  .custom-month-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      border: 2px solid var(--color-silver-dark);
+      border-top: none;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      z-index: 10;
+      display: none;
+      overflow-y: auto;
+      max-height: 200px;
+  }
+
+  .custom-month-dropdown button {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--color-silver-light);
+      width: 100%;
+      text-align: left;
+  }
+
+  #selectedBirthMonth {
+      margin: auto;
+      color: gray;
+  }
+}
+/* Ancho específico para los inputs de día y año en pantallas más grandes */
+@media (min-width: 769px) {
+  .date-input {
+      min-width: 80px;
+      height: 45px;
+  }
+
+  #birthDia {
+
+      max-width: 80px;
+  }
+
+  #birthAnio {
+      max-width: 120px;
+  }
+}
+
+
+#selectedFechaPagoMes{
+ margin: auto;
+ color: gray;
+
+
+}
+
+
+/* Espaciado mejorado para el formulario de Datos de Pago */
+#step4 .input-group:nth-child(3), /* Cuenta Destino */
+#step4 .input-group:nth-child(4), /* Referencia */
+#step4 .input-group:nth-child(5) { /* Fecha */
+    margin-bottom: 1.5rem; /* Aumenta el margen inferior para separarlos */
+}
+
+#step4 .input-group:last-child { /* Constancia de Pago */
+    margin-top: 2rem; /* Añade margen superior para separarlo aún más */
+}
+
+/* Espaciado general entre input-group en todo el formulario */
+.operations-form .input-group {
+    margin-bottom: 1.25rem; /* Ligeramente más espacio entre todos los campos */
+    height: auto; /* Ajusta la altura automáticamente según el contenido */
+    min-height: 60px; /* Asegura una altura mínima */
+}

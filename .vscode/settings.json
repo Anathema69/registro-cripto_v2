@@ -91,5 +91,6 @@
         "usuarios",
         "Venta",
         "Xpert"
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }
