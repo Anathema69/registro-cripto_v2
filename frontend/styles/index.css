@@ -282,7 +282,7 @@ main {
 }
 
 /* RESPONSIVE */
-/* Movil Devices (576px) - Logo Positioning */
+/* Movil */
 @media screen and (max-width: 576px) {
     body {
         display: flex;
@@ -292,19 +292,31 @@ main {
         min-height: 100vh;
         background-color: var(--color-black-deep);
         padding: 1rem;
-        gap: 1rem; 
+        gap: 1rem;
+        margin: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    main {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
     }
 
     .form-section {
         display: flex;
         flex-direction: column;
-        width: 100%; 
+        width: 100%;  
         max-width: 100%; 
         background-color: var(--color-black-soft);
         border-radius: 12px; 
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
         position: relative;
+        margin: 0 auto;
     }
 
     .form-container {
@@ -312,18 +324,22 @@ main {
         padding: 1.5rem; 
         height: auto; 
         gap: 1rem;
+        margin: 0 auto;
     }
 
     .form-title {
         font-size: 1.5rem;
+        text-align: center;
     }
 
     .form-subtitle {
         font-size: 0.9rem;
+        text-align: center;
     }
 
     .form-tabs {
         margin-bottom: 1rem;
+        width: 100%;
     }
 
     .form-tabs button {
@@ -333,11 +349,13 @@ main {
 
     .input-group {
         margin-bottom: 0.75rem;
+        width: 100%;
     }
 
     .input-group input {
         padding: 0.6rem 0.6rem 0.6rem 2.2rem;
         font-size: 0.9rem;
+        width: 100%;
     }
 
     .input-group .icon {
@@ -353,15 +371,16 @@ main {
         padding: 0.6rem;
         font-size: 0.9rem;
         margin-top: 0.25rem;
+        width: 100%;
     }
 
-    /* Logo Illustration Container Styling */
     .logo-illustration-container {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 1rem; 
-        order: -1; 
+        order: -1;
+        width: 100%;
     }
 
     .logo-illustration {
@@ -371,6 +390,7 @@ main {
         object-fit: contain;
         border-radius: 10px;
         box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        margin: 0 auto;
     }
 
     .toast {
@@ -379,11 +399,12 @@ main {
         right: 1rem;
         padding: 0.75rem 1rem;
         font-size: 0.9rem;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 
-
-/* Tablet Devices (577px to 992px) - Logo Positioning */
+/* Tables */
 @media screen and (min-width: 577px) and (max-width: 992px) {
     body {
         display: flex;
@@ -394,6 +415,17 @@ main {
         background-color: var(--color-black-deep);
         padding: 1rem;
         gap: 2rem;
+        margin: 0;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    main {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
     }
 
     .form-section {
@@ -406,23 +438,40 @@ main {
         overflow: hidden;
         box-shadow: 0 15px 50px rgba(0,0,0,0.3);
         position: relative;
+        margin: 0 auto;
     }
 
-    /* Logo Illustration Container Styling */
+    .form-container {
+        width: 100%;
+        padding: 2rem;
+        height: auto;
+        gap: 1.25rem;
+        margin: 0 auto;
+    }
+
     .logo-illustration-container {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 1.5rem;
-        order: -1; /* Moves logo before the form */
+        order: -1;
+        width: 100%;
     }
 
     .logo-illustration {
-        width: 180px; /* Adjusted size */
+        width: 180px;
         height: auto;
         max-width: 90%;
         object-fit: contain;
-        border-radius: 12px; /* Optional: adds rounded corners to the logo */
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2); /* Optional: adds a subtle shadow */
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        margin: 0 auto;
+    }
+    
+    .toast {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 400px;
     }
 }
