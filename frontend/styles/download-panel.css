@@ -24,7 +24,7 @@ body {
     padding: 0;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* MAIN CONTAINER */
 .download-container {
     display: flex;
     width: 100%;
@@ -86,7 +86,7 @@ body {
 }
 
 
-/* CONTENIDO PRINCIPAL */
+/* MAIN CONTENT */
 .download-content {
     flex-grow: 1;
     background: linear-gradient(to bottom right, var(--color-black-soft), var(--color-black-deep));
@@ -94,7 +94,7 @@ body {
     overflow-y: auto;
 }
 
-/* ENCABEZADO SUPERIOR */
+/* TOP HEADER */
 .admin-header {
     display: flex;
     justify-content: space-between;
@@ -126,7 +126,7 @@ body {
     box-shadow: 0 4px 10px rgba(139, 0, 0, 0.5);
 }
 
-/* SECCIÓN DE DESCARGA */
+/* DOWNLOAD SECTION */
 .download-section {
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@ body {
     text-align: center;
 }
 
-/* FORMULARIO DE DESCARGA */
+/* DOWNLOAD FORM */
 .download-form {
     background: rgba(255, 255, 255, 0.4);
     border-radius: 12px;
@@ -386,7 +386,7 @@ body {
     }
 }
 
-/* Para dispositivos más pequeños (móviles) */
+/* For smaller devices (mobile) */
 @media screen and (max-width: 600px) {
     .sidebar {
         width: 70px;
@@ -420,73 +420,86 @@ body {
     }
 }
 
-/* Estilos para las fechas en download-panel.css (similar a user-panel) */
+/* Styles for dates in download-panel.css (similar to user-panel) */
 .date-range {
     display: flex;
-    gap: 15px; /* Espacio entre los dos bloques de fecha */
-    margin-bottom: 20px; /* Espacio debajo de los campos de fecha */
-    width: 100%; /* Asegura que ocupe el ancho del contenedor */
+    gap: 15px; /* Space between the two date blocks */
+    margin-bottom: 20px; /* Space below date fields */
+    width: 100%; /* Ensures it occupies the width of the container */
 }
 
 .date-field {
-    flex: 1; /* Permite que ambos bloques de fecha crezcan por igual */
+    flex: 1; /* Allows both date blocks to grow equally */
 }
 
 .date-field label {
     display: block;
     margin-bottom: 5px;
-    color: #555; /* Un color de etiqueta similar */
+    color: var(--color-gold-primary);
     font-size: 0.9em;
     font-weight: bold;
 }
 
 .date-separate {
     display: flex;
-    gap: 5px; /* Espacio entre día, mes y año */
+    gap: 5px; /* Space between day, month, and year */
     width: 100%;
 }
 
 .date-input {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 8px;
     font-size: 1em;
-    color: #333;
-    box-sizing: border-box; /* Importante para el manejo del padding y el border */
+    color: var(--color-silver-dark);
+    box-sizing: border-box; /* Important for handling padding and border */
 }
 
 .date-input:focus {
     outline: none;
-    border-color: var(--color-gold-primary); /* Usando tu color primario */
-    box-shadow: 0 0 5px rgba(45, 165, 158, 0.5); /* Sombra similar al focus */
+    border-color: var(--color-gold-primary); /* Using your primary color */
+    box-shadow: 0 0 5px rgba(45, 165, 158, 0.5); /* Shadow similar to focus */
 }
 
+/* NEW STYLE FOR MONTH SELECT THAT LOOKS LIKE INPUTS */
 .custom-month-select {
     position: relative;
-    flex: 2; /* Ocupa más espacio que día/año para el mes */
+    flex: 2;
 }
 
+/* Make the month button look like day and year inputs */
 .custom-month-trigger {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 8px;
     font-size: 1em;
-    color: #333;
+    color: var(--color-silver-dark);
     text-align: left;
-    background-color: #fff;
     cursor: pointer;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
+
 }
 
-.custom-month-trigger:focus {
+.custom-month-trigger:focus,
+.custom-month-trigger:active {
     outline: none;
     border-color: var(--color-gold-primary);
     box-shadow: 0 0 5px rgba(45, 165, 158, 0.5);
+}
+
+/* Add an arrow icon to indicate it's a dropdown */
+.custom-month-trigger::after {
+    content: "▼";
+    font-size: 0.8em;
+    margin-left: 5px;
 }
 
 .custom-month-dropdown {
@@ -495,14 +508,13 @@ body {
     left: 0;
     width: 100%;
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 0 0 8px 8px;
     z-index: 10;
     display: none;
     overflow-y: auto;
-    max-height: 150px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .custom-month-dropdown.open {
@@ -517,11 +529,29 @@ body {
     background-color: transparent;
     text-align: left;
     font-size: 1em;
-    color: #333;
+    color: var(--color-silver-dark);
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .custom-month-dropdown button:hover {
-    background-color: #f0f0f0;
+    background-color: rgba(45, 165, 158, 0.2);
 }
 
+/* Remove the margin that was causing problems */
+#selectedFinMes {
+    margin-left: 0;
+}
+
+/* Responsiveness for date fields */
+@media screen and (max-width: 768px) {
+    .date-separate {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .date-input, 
+    .custom-month-trigger {
+        width: 100%;
+    }
+}
