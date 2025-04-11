@@ -53,14 +53,61 @@
 
                 <div class="date-range">
                     <div class="date-field">
-                        <label for="fechaInicio">Fecha Inicio:</label>
-                        <input type="date" id="fechaInicio">
+                        <label for="fechaInicioDia">Fecha Inicio:</label>
+                        <div class="date-separate">
+                            <input type="text" id="fechaInicioDia" placeholder="DD" class="date-input" maxlength="2">
+                            <div class="custom-month-select">
+                                <button type="button" class="custom-month-trigger">
+                                    <span id="selectedInicioMes">Mes</span>
+                                </button>
+                                <div class="custom-month-dropdown">
+                                    <button type="button" data-value="1">Enero</button>
+                                    <button type="button" data-value="2">Febrero</button>
+                                    <button type="button" data-value="3">Marzo</button>
+                                    <button type="button" data-value="4">Abril</button>
+                                    <button type="button" data-value="5">Mayo</button>
+                                    <button type="button" data-value="6">Junio</button>
+                                    <button type="button" data-value="7">Julio</button>
+                                    <button type="button" data-value="8">Agosto</button>
+                                    <button type="button" data-value="9">Septiembre</button>
+                                    <button type="button" data-value="10">Octubre</button>
+                                    <button type="button" data-value="11">Noviembre</button>
+                                    <button type="button" data-value="12">Diciembre</button>
+                                </div>
+                            </div>
+                            <input type="text" id="fechaInicioAnio" placeholder="AAAA" class="date-input" maxlength="4">
+                            <input type="hidden" id="fechaInicioMesHidden">
+                        </div>
                     </div>
                     <div class="date-field">
-                        <label for="fechaFin">Fecha Fin:</label>
-                        <input type="date" id="fechaFin">
+                        <label for="fechaFinDia">Fecha Fin:</label>
+                        <div class="date-separate">
+                            <input type="text" id="fechaFinDia" placeholder="DD" class="date-input" maxlength="2">
+                            <div class="custom-month-select">
+                                <button type="button" class="custom-month-trigger">
+                                    <span id="selectedFinMes">Mes</span>
+                                </button>
+                                <div class="custom-month-dropdown">
+                                    <button type="button" data-value="1">Enero</button>
+                                    <button type="button" data-value="2">Febrero</button>
+                                    <button type="button" data-value="3">Marzo</button>
+                                    <button type="button" data-value="4">Abril</button>
+                                    <button type="button" data-value="5">Mayo</button>
+                                    <button type="button" data-value="6">Junio</button>
+                                    <button type="button" data-value="7">Julio</button>
+                                    <button type="button" data-value="8">Agosto</button>
+                                    <button type="button" data-value="9">Septiembre</button>
+                                    <button type="button" data-value="10">Octubre</button>
+                                    <button type="button" data-value="11">Noviembre</button>
+                                    <button type="button" data-value="12">Diciembre</button>
+                                </div>
+                            </div>
+                            <input type="text" id="fechaFinAnio" placeholder="AAAA" class="date-input" maxlength="4">
+                            <input type="hidden" id="fechaFinMesHidden">
+                        </div>
                     </div>
                 </div>
+
 
                 <button type="submit" class="btn-primary">
                     Descargar Reporte
