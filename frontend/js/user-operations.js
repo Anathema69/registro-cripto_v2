@@ -65,6 +65,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     ];
     let currentStepIndex = 0;
 
+    function updateNavigationButtons() {
+        const btnAnterior = document.getElementById('btnPrev4');
+        const btnRegistrar = document.getElementById('btnRegistrar');
+        const btnNext1 = document.getElementById('btnNext1');
+        const btnNext2 = document.getElementById('btnNext2');
+        const btnNext3 = document.getElementById('btnNext3');
+
+        if (currentStepIndex === 0) {
+            // Paso 1: Ocultar "Anterior" y "Registrar Operación"
+            if (btnAnterior) btnAnterior.style.display = 'none';
+            if (btnRegistrar) btnRegistrar.style.display = 'none';
+            if (btnNext1) btnNext1.style.display = 'inline-block';
+        } else if (currentStepIndex === steps.length - 1) {
+            // Paso 4: Mostrar "Anterior" y "Registrar Operación"
+            if (btnAnterior) btnAnterior.style.display = 'inline-block';
+            if (btnRegistrar) btnRegistrar.style.display = 'inline-block';
+            if (btnNext3) btnNext3.style.display = 'none';
+        } else {
+            // Pasos intermedios: Mostrar "Anterior" y ocultar "Registrar Operación"
+            const btnPrev = steps[currentStepIndex].querySelector('.buttons-group .btn-secondary');
+            if (btnPrev) btnPrev.style.display = 'inline-block';
+            if (btnRegistrar) btnRegistrar.style.display = 'none';
+            if (btnAnterior) btnAnterior.style.display = 'none';
+            // Asegurarse de que los botones "Siguiente" de los pasos anteriores se muestren
+            if (currentStepIndex === 1 && btnNext1) btnNext1.style.display = 'none';
+            if (currentStepIndex === 2 && btnNext2) btnNext2.style.display = 'none';
+            const btnNextCurrent = steps[currentStepIndex]?.querySelector('.buttons-group .btn-primary');
+            if (btnNextCurrent) btnNextCurrent.style.display = 'inline-block';
+        }
+    }
+
     function goToStep(index) {
         if (index > currentStepIndex) {
             for (let i = currentStepIndex; i < index; i++) {
@@ -80,6 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (i === index) indicator.classList.add('active');
         });
         currentStepIndex = index;
+        updateNavigationButtons();
     }
 
     function validateStep(stepIndex) {
@@ -118,6 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnPrev2 = document.getElementById('btnPrev2');
     const btnPrev3 = document.getElementById('btnPrev3');
     const btnPrev4 = document.getElementById('btnPrev4');
+    const btnRegistrar = document.getElementById('btnRegistrar'); // Asegúrate de obtener la referencia
 
     if (btnNext1) btnNext1.addEventListener('click', nextStep);
     if (btnNext2) btnNext2.addEventListener('click', nextStep);
@@ -130,6 +163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         indicator.addEventListener('click', () => goToStep(i));
     });
     goToStep(0);
+    updateNavigationButtons();
 
     // 6) Cálculo automático de Total
     const montoInput = document.getElementById('monto');
@@ -224,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             formData.append('cuentaDestino', document.getElementById('cuentaDestino').value);
             formData.append('referenciaPago', document.getElementById('referenciaPago').value);
             formData.append('estadoPago', document.getElementById('estadoPago').value);
-            formData.append('fecha', document.getElementById('fechaPago').value);
+            formData.append('fecha', document.getElementById('fechaPagoDia').value);
 
             // Imagen opcional
             const receiptImageInput = document.getElementById('receiptImage');
@@ -269,4 +303,33 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+
+    // **SELECTOR DE MES CUSTOMIZADO**
+    const fechaPagoMonthSelect = document.querySelector('#step4 .custom-month-select');
+    const fechaPagoMonthTrigger = fechaPagoMonthSelect.querySelector('.custom-month-trigger');
+    const fechaPagoMonthDropdown = fechaPagoMonthSelect.querySelector('.custom-month-dropdown');
+    const selectedFechaPagoMesSpan = document.getElementById('selectedFechaPagoMes');
+    const fechaPagoMesHiddenInput = document.getElementById('fechaPagoMesHidden');
+
+    fechaPagoMonthTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fechaPagoMonthDropdown.classList.toggle('open');
+        fechaPagoMonthTrigger.focus();
+    });
+
+    fechaPagoMonthDropdown.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const monthValue = e.target.dataset.value;
+            const monthName = e.target.textContent;
+            selectedFechaPagoMesSpan.textContent = monthName;
+            fechaPagoMesHiddenInput.value = monthValue;
+            fechaPagoMonthDropdown.classList.remove('open');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!fechaPagoMonthSelect.contains(e.target)) {
+            fechaPagoMonthDropdown.classList.remove('open');
+        }
+    });
 });
