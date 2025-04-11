@@ -74,7 +74,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Manejo del submit del formulario (inicia en blanco y se limpia después)
+    const monthTrigger = document.querySelector('.custom-month-trigger');
+    const monthDropdown = document.querySelector('.custom-month-dropdown');
+    const monthButtons = document.querySelectorAll('.custom-month-dropdown button');
+    const selectedMonth = document.getElementById('selectedBirthMonth');
+    const hiddenMonthInput = document.getElementById('birthMesHidden');
+
+    monthTrigger.addEventListener('click', function() {
+        monthDropdown.classList.toggle('open');
+    });
+
+    monthButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const monthValue = this.getAttribute('data-value');
+            const monthName = this.textContent;
+            selectedMonth.textContent = monthName;
+            hiddenMonthInput.value = monthValue;
+            monthDropdown.classList.remove('open');
+        });
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!monthTrigger.contains(event.target) && !monthDropdown.contains(event.target)) {
+            monthDropdown.classList.remove('open');
+        }
+    });
+
+    // 6. Manejo del submit del formulario
     datosForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!userId || !token) {
@@ -83,21 +109,21 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Muestra overlay de carga
         loadingOverlay.style.display = 'flex';
 
-        // Recopilar campos
         const fullName = document.getElementById('fullName').value.trim();
-        const code = document.getElementById('countryCode').value; // ej. +57
+        const code = document.getElementById('countryCode').value;
         const phoneNum = document.getElementById('phoneNumber').value.trim();
         const accountNumber = document.getElementById('accountNumber').value.trim();
-        const birthDate = document.getElementById('birthDate').value; // string "YYYY-MM-DD"
 
-        // Combina el código y el número en un solo campo "telefono"
+        const day = document.getElementById('birthDia').value;
+        const month = document.getElementById('birthMesHidden').value;
+        const year = document.getElementById('birthAnio').value;
+
+        const birthDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         const telefono = `${code} ${phoneNum}`;
 
         try {
-            // Petición PUT al backend
             const response = await fetch(`/api/user/update/${userId}`, {
                 method: 'PUT',
                 headers: {
@@ -113,27 +139,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const data = await response.json();
-            // Oculta overlay
             loadingOverlay.style.display = 'none';
 
-            // Muestra notificación
-            showToast(data.message, response.ok);
-
             if (response.ok) {
-                // Si el usuario cambió su nombre, actualizamos el localStorage
                 localStorage.setItem('fullName', fullName);
-
-                // Actualiza el encabezado
                 if (userNameEl) {
                     userNameEl.textContent = `Bienvenido: ${fullName}`;
                 }
-
-                // Limpia el formulario (deja todo en blanco)
                 datosForm.reset();
-
-                // Restablece la bandera al valor por defecto (Colombia, por ejemplo)
                 countryCodeSelect.value = '+57';
                 countryFlagImg.src = 'icon/flags/co.png';
+                showToast(data.message, true);
+            } else {
+                showToast(data.message, false);
             }
         } catch (error) {
             console.error('Error:', error);
