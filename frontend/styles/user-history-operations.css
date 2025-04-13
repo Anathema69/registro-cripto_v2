@@ -1,4 +1,16 @@
-/* RESET / BASE */
+:root {
+    --color-gold-primary: #2DA59E;
+    --color-gold-dark: #15726d;
+    --color-silver-light: #C0C0C0;
+    --color-silver-dark: #000000;
+    --color-black-deep: #fdfdfd;
+    --color-black-soft: #ffffff;
+    --transition-smooth: all 0.3s ease-in-out;
+    --sidebar-width: 280px;
+    --sidebar-width-tablet: 200px;
+    --sidebar-width-mobile: 160px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,243 +19,427 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #F0F8F5;
-    color: #333;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Evita scroll global */
+    background: linear-gradient(135deg, var(--color-black-deep), var(--color-black-soft));
+    color: var(--color-silver-light);
+    min-height: 100vh;
+    line-height: 1.6;
 }
 
-/* CONTENEDOR PRINCIPAL */
-.history-container {
+/* Admin Container and Sidebar */
+.admin-container {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
-/* SIDEBAR */
-.sidebar {
-    width: 250px;
-    background-color: #2DA59E;
-    padding: 1rem;
-    color: white;
+.admin-sidebar {
+    width: var(--sidebar-width);
+    background: var(--color-gold-primary);
+    padding: 2rem 1rem;
+    border-right: 2px solid var(--color-gold-primary);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    transition: var(--transition-smooth);
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
-.sidebar h2 {
-    margin-bottom: 1rem;
+.admin-sidebar h2 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
-.sidebar nav ul {
+.admin-sidebar nav ul {
     list-style: none;
     width: 100%;
-    padding: 0;
 }
 
-.sidebar nav ul li {
-    width: 100%;
-    margin-bottom: 0.5rem;
-}
-
-.sidebar button {
+.admin-sidebar button {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
     width: 100%;
-    background: none;
+    background: transparent;
     border: none;
-    color: white;
-    padding: 0.75rem;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
     text-align: left;
     cursor: pointer;
     font-size: 1rem;
-    transition: background 0.3s;
+    border-radius: 6px;
+    transition: var(--transition-smooth);
 }
 
 .sidebar-icon {
     width: 24px;
     height: 24px;
-    object-fit: contain;
+    filter: brightness(0.8) grayscale(0.5);
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
 }
 
-.sidebar button:hover,
-.sidebar .active {
-    background: #248C88;
+.admin-sidebar button:hover,
+.admin-sidebar .active {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgb(255, 255, 255);
 }
 
-/* CONTENIDO PRINCIPAL */
-.main-content {
-    margin-left: 250px; /* deja espacio para la sidebar fija */
-    width: calc(100% - 250px);
-    height: 100%;
+.admin-sidebar button:hover .sidebar-icon,
+.admin-sidebar .active .sidebar-icon {
+    filter: brightness(1) grayscale(0);
+}
+
+/* Admin Content and Header */
+.admin-content {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    padding: 2rem;
+    background: linear-gradient(to bottom right, var(--color-black-soft), var(--color-black-deep));
+    overflow-y: auto;
+    width: calc(100% - var(--sidebar-width));
 }
 
-/* HEADER (fijo arriba) */
 .admin-header {
-    flex: 0 0 auto;
-    height: 60px;
-    background-color: #FFF;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: fixed;
-    left: 250px;
-    top: 0;
-    width: calc(100% - 250px);
-    z-index: 10;
+    background: var(--color-gold-primary);
+    border: 1px solid var(--color-gold-dark);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    color: #ffffff;
+    font-size: 1.5rem;
 }
 
 .btn-logout {
-    background-color: #FF5252;
-    color: white;
+    background: linear-gradient(to right, #8B0000, #5A0000);
+    color: var(--color-silver-light);
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
+    transition: var(--transition-smooth);
 }
 
-/* SECCIÓN DEL HISTORIAL (scroll interno) */
-.history-section {
-    flex: 1 1 auto;
-    margin-top: 60px; /* deja espacio bajo el header fijo */
-    overflow-y: auto; /* scroll solo en esta sección */
-    padding: 1.5rem;
+.btn-logout:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(139, 0, 0, 0.5);
 }
 
-.history-section h2 {
-    margin-bottom: 1rem;
-}
-
-/* TABLA */
+/* Table Styles */
 .table-container {
+    background: rgb(255, 255, 255);
+    border: 1px solid var(--color-gold-primary);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow-x: auto;
     width: 100%;
-    overflow-x: auto; /* Scroll horizontal si la tabla es muy ancha */
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    padding: 1rem;
 }
 
 #operationsTable {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px; /* Ajusta el mínimo ancho si quieres */
+    table-layout: auto;
 }
 
 #operationsTable thead {
-    background-color: #2DA59E;
-    color: #fff;
+    background: rgba(10, 191, 197, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 #operationsTable th,
 #operationsTable td {
+    padding: 0.5rem;
     text-align: left;
-    padding: 0.75rem;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgb(0, 0, 0);
+    color: var(--color-silver-dark);
+    white-space: normal;
+    word-break: break-word;
+}
+
+#operationsTable th {
+    background-color: var(--color-gold-primary);
+    color: #020202;
+    font-weight: 600;
 }
 
 #operationsTable tr:hover {
-    background-color: #f5f5f5;
+    background: rgba(5, 134, 102, 0.342);
 }
 
-/* BOTÓN PARA VER IMAGEN */
 .btn-view-receipt {
-    background-color: #2DA59E;
-    color: #fff;
+    background: linear-gradient(to right, var(--color-gold-primary), var(--color-gold-dark));
+    color: var(--color-silver-dark);
     border: none;
     padding: 0.4rem 0.6rem;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.3s;
+    transition: var(--transition-smooth);
 }
+
 .btn-view-receipt:hover {
-    background-color: #248C88;
-}
-.btn-disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* TOAST DE NOTIFICACIÓN */
-.toast {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background-color: #2DA59E;
-    color: #fff;
-    padding: 1rem 1.5rem;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 2000;
-    max-width: 280px;
-}
-
-.show-toast {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.toast-success {
-    background-color: #28a745;
-}
-.toast-error {
-    background-color: #dc3545;
-}
-/* Modal (fondo oscuro) */
+/* Modal Styles */
 .modal {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed;
-    z-index: 999;
+    z-index: 20;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Contenido del modal centrado */
 .modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 1rem;
-    border-radius: 8px;
-    width: 50%;
+    background: #ffffff;
+    margin: 10% auto;
+    padding: 2rem;
+    border: 1px solid var(--color-gold-primary);
+    border-radius: 12px;
+    width: 80%;
     max-width: 600px;
     position: relative;
-    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: var(--color-silver-dark);
 }
 
-/* Botón de cerrar */
 .modal-close {
-    color: #333;
-    font-size: 1.5rem;
-    font-weight: bold;
+    color: var(--color-gold-primary);
     position: absolute;
-    right: 1rem;
-    top: 0.5rem;
+    top: 10px;
+    right: 10px;
+    font-size: 28px;
+    font-weight: bold;
     cursor: pointer;
-}
-.modal-close:hover {
-    color: #666;
+    transition: var(--transition-smooth);
 }
 
-/* Imagen dentro del modal */
-#modalReceiptImage {
-    max-width: 100%;
-    height: auto;
-    margin-top: 1rem;
+.modal-close:hover {
+    color: var(--color-gold-dark);
+}
+
+/* Estilos de tarjeta para vista móvil */
+.card-view {
+    display: none;
+}
+
+.operation-card {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    break-inside: avoid;
+}
+
+.operation-card-header {
+    background: var(--color-gold-primary);
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.operation-card-date {
+    font-size: 0.9rem;
+}
+
+.operation-card-content {
+    padding: 15px;
+}
+
+.operation-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.operation-field:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.field-label {
+    font-weight: 600;
+    color: var(--color-gold-dark);
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+}
+
+.field-value {
+    color: #333;
+}
+
+/* Toast styles */
+.toast {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 5px;
+    color: white;
+    z-index: 100;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast-success {
+    background-color: var(--color-gold-primary);
+}
+
+.toast-error {
+    background-color: #d9534f;
+}
+
+.show-toast {
+    opacity: 1;
+    transform: translate(-50%, -10px);
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .admin-content {
+        padding: 1.5rem;
+    }
+    
+    #operationsTable th,
+    #operationsTable td {
+        padding: 0.5rem 0.3rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .admin-sidebar {
+        width: var(--sidebar-width-tablet);
+    }
+    
+    .admin-content {
+        width: calc(100% - var(--sidebar-width-tablet));
+        padding: 1.5rem 1rem;
+    }
+    
+    .admin-sidebar h2 {
+        font-size: 1.1rem;
+    }
+    
+    .admin-sidebar button {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.75rem;
+    }
+    
+    /* Cambiar a vista de tarjetas en tablet */
+    #operationsTable {
+        display: none;
+    }
+    
+    .card-view {
+        display: block;
+    }
+    
+    .table-container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: var(--sidebar-width-mobile);
+    }
+    
+    .admin-content {
+        width: calc(100% - var(--sidebar-width-mobile));
+        padding: 1rem 0.75rem;
+    }
+    
+    .admin-sidebar h2 {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .admin-sidebar button {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .table-container {
+        max-width: 100%;
+    }
+    
+    /* Mantener vista de tarjetas */
+    #operationsTable {
+        display: none;
+    }
+    
+    .card-view {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-sidebar {
+        padding: 1.2rem 0.5rem;
+    }
+    
+    .admin-sidebar button {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.7rem;
+    }
+    
+    .sidebar-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .admin-content {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .table-container {
+        border-radius: 8px;
+    }
+    
+    .operation-card-content {
+        padding: 10px;
+    }
 }

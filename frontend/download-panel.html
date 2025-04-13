@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Descargar Reportes</title>
     <link rel="stylesheet" href="styles/download-panel.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
 <div class="download-container">
@@ -12,13 +13,13 @@
         <nav>
             <ul>
                 <li>
-                    <button class="active" id="crearUsuariosBtn">
+                    <button onclick="window.location.href='admin-panel.html'">
                         <img src="icon/panel_new_user.png" class="sidebar-icon" alt="Crear Usuario">
                         Crear nuevos usuarios
                     </button>
                 </li>
                 <li>
-                    <button id="descargarReportesBtn">
+                    <button class="active">
                         <img src="icon/panel_download.png" class="sidebar-icon" alt="Descargar Reportes">
                         Descargar reportes
                     </button>
@@ -40,22 +41,70 @@
                 <input type="text" id="searchUser" placeholder="Escribe para filtrar usuarios...">
 
                 <label>Seleccionar Usuarios:</label>
-                <label>
-                    <input type="checkbox" id="selectAllUsers">
-                    Seleccionar todos
-                </label>
-                <div class="multi-select-container" id="userList">
-                    <!-- Se llenará dinámicamente con checkboxes para cada usuario -->
+                <div class="multi-select-dropdown" id="userDropdown">
+                    <div tabindex="0" class="multi-select-dropdown-header" id="userDropdownHeader">
+                        Seleccione usuarios
+                    </div>
+                    <div class="multi-select-dropdown-list" id="userDropdownList">
+                        <!-- Users will be dynamically added here -->
+                    </div>
                 </div>
+                <div id="selectedUsersDisplay" class="selected-users-display"></div>
 
                 <div class="date-range">
                     <div class="date-field">
-                        <label for="fechaInicio">Fecha Inicio:</label>
-                        <input type="date" id="fechaInicio">
+                        <label for="fechaInicioDia">Fecha Inicio:</label>
+                        <div class="date-separate">
+                            <input type="text" id="fechaInicioDia" placeholder="DD" class="date-input" maxlength="2">
+                            <div class="custom-month-select">
+                                <button type="button" class="custom-month-trigger">
+                                    <span id="selectedInicioMes">Mes</span>
+                                </button>
+                                <div class="custom-month-dropdown">
+                                    <button type="button" data-value="1">Enero</button>
+                                    <button type="button" data-value="2">Febrero</button>
+                                    <button type="button" data-value="3">Marzo</button>
+                                    <button type="button" data-value="4">Abril</button>
+                                    <button type="button" data-value="5">Mayo</button>
+                                    <button type="button" data-value="6">Junio</button>
+                                    <button type="button" data-value="7">Julio</button>
+                                    <button type="button" data-value="8">Agosto</button>
+                                    <button type="button" data-value="9">Septiembre</button>
+                                    <button type="button" data-value="10">Octubre</button>
+                                    <button type="button" data-value="11">Noviembre</button>
+                                    <button type="button" data-value="12">Diciembre</button>
+                                </div>
+                            </div>
+                            <input type="text" id="fechaInicioAnio" placeholder="AAAA" class="date-input" maxlength="4">
+                            <input type="hidden" id="fechaInicioMesHidden">
+                        </div>
                     </div>
                     <div class="date-field">
-                        <label for="fechaFin">Fecha Fin:</label>
-                        <input type="date" id="fechaFin">
+                        <label for="fechaFinDia">Fecha Fin:</label>
+                        <div class="date-separate">
+                            <input type="text" id="fechaFinDia" placeholder="DD" class="date-input" maxlength="2">
+                            <div class="custom-month-select">
+                                <button type="button" class="custom-month-trigger">
+                                    <span id="selectedFinMes">Mes</span>
+                                </button>
+                                <div class="custom-month-dropdown">
+                                    <button type="button" data-value="1">Enero</button>
+                                    <button type="button" data-value="2">Febrero</button>
+                                    <button type="button" data-value="3">Marzo</button>
+                                    <button type="button" data-value="4">Abril</button>
+                                    <button type="button" data-value="5">Mayo</button>
+                                    <button type="button" data-value="6">Junio</button>
+                                    <button type="button" data-value="7">Julio</button>
+                                    <button type="button" data-value="8">Agosto</button>
+                                    <button type="button" data-value="9">Septiembre</button>
+                                    <button type="button" data-value="10">Octubre</button>
+                                    <button type="button" data-value="11">Noviembre</button>
+                                    <button type="button" data-value="12">Diciembre</button>
+                                </div>
+                            </div>
+                            <input type="text" id="fechaFinAnio" placeholder="AAAA" class="date-input" maxlength="4">
+                            <input type="hidden" id="fechaFinMesHidden">
+                        </div>
                     </div>
                 </div>
 

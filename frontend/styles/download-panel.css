@@ -5,243 +5,306 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #F0F8F5;
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+:root {
+    --color-gold-primary: #2DA59E;
+    --color-gold-dark: #15726d;
+    --color-silver-light: #C0C0C0;
+    --color-silver-dark: #000000;
+    --color-black-deep: #fdfdfd;
+    --color-black-soft: #ffffff;
+    --transition-smooth: all 0.3s ease-in-out;
 }
 
-/* CONTENEDOR PRINCIPAL */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--color-black-deep), var(--color-black-soft));
+    color: var(--color-silver-light);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* MAIN CONTAINER */
 .download-container {
     display: flex;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* SIDEBAR */
 .sidebar {
-    width: 250px;
-    background-color: #2DA59E;
-    padding: 1rem;
-    color: white;
+    width: 280px;
+    background: var(--color-gold-primary);
+    padding: 2rem 1rem;
+    border-right: 2px solid var(--color-gold-primary);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    transition: var(--transition-smooth);
 }
 
 .sidebar h2 {
-    margin-bottom: 1rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
 .sidebar nav ul {
     list-style: none;
     width: 100%;
-    padding: 0;
 }
 
-.sidebar nav ul li {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-
-/* Botones del sidebar */
 .sidebar button {
-    display: flex; /* Para alinear ícono y texto */
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    justify-content: center;
+    gap: 1rem;
     width: 100%;
-    background: none;
+    background: transparent;
     border: none;
-    color: white;
-    padding: 0.75rem;
-    font-size: 1rem;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    text-align: left;
     cursor: pointer;
-    transition: background 0.3s;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: var(--transition-smooth);
 }
 
 .sidebar button:hover,
-.sidebar .active {
-    background: #248C88;
+.sidebar button.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
 }
 
 .sidebar-icon {
-    width: 24px; /* Ajusta el tamaño de los íconos en la barra lateral */
+    width: 24px;
     height: 24px;
-    object-fit: contain;
+    filter: brightness(0.8) grayscale(0.5);
+    transition: var(--transition-smooth);
 }
 
-/* CONTENIDO PRINCIPAL */
+
+/* MAIN CONTENT */
 .download-content {
     flex-grow: 1;
+    background: linear-gradient(to bottom right, var(--color-black-soft), var(--color-black-deep));
     padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centrar horizontalmente */
-    position: relative;
+    overflow-y: auto;
 }
 
-/* ENCABEZADO SUPERIOR (mismo estilo que en admin) */
+/* TOP HEADER */
 .admin-header {
-    width: 100%;
-    max-width: 900px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FFF;
+    background: var(--color-gold-primary);
+    border: 1px solid var(--color-gold-primary);
     padding: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    color: #ffffff;
+    font-size: 1.5rem;
 }
 
 .btn-logout {
-    background-color: #FF5252;
-    color: white;
+    background: linear-gradient(to right, #8B0000, #5A0000);
+    color: var(--color-silver-light);
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
+    transition: var(--transition-smooth);
 }
 
-/* SECCIÓN DE DESCARGA, centrada/flotante */
+.btn-logout:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(139, 0, 0, 0.5);
+}
+
+/* DOWNLOAD SECTION */
 .download-section {
-    width: 100%;
-    max-width: 900px; /* limita el ancho total */
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .download-section h2 {
     margin-bottom: 1rem;
+    color: var(--color-gold-primary);
+    text-align: center;
 }
 
-/* FORMULARIO DE DESCARGA */
+/* DOWNLOAD FORM */
 .download-form {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    border: 1px solid var(--color-gold-primary);
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.label-usuarios {
-    font-weight: 600;
-    margin-top: 0.5rem;
+.download-form label {
+    color: var(--color-gold-primary);
+    margin-bottom: 0.5rem;
 }
 
-.search-input {
+.search-input,
+.download-form input[type="text"],
+.download-form input[type="date"] {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 8px;
+    color: var(--color-silver-dark);
 }
 
-/* CHECKBOXES */
-.multi-select-container {
-    display: flex;
-    flex-direction: column;
-    max-height: 200px; /* Ejemplo: contenedor con scroll si hay muchos */
-    overflow-y: auto;
-    gap: 0.5rem;
+
+.search-input:focus,
+.download-form input[type="text"]:focus,
+.download-form input[type="date"]:focus {
+    border-color: var(--color-gold-primary);
+    outline: none;
+    box-shadow: 0 0 10px rgba(207, 181, 59, 0.3);
 }
 
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-/* FECHAS */
 .date-range {
     display: flex;
-    flex-wrap: wrap; /* permite que baje si no cabe */
     gap: 1rem;
 }
 
 .date-field {
-    display: flex;
-    flex-direction: column;
     flex: 1;
 }
 
-.date-field label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.date-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-/* BOTÓN DESCARGAR */
 .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: #2DA59E;
-    color: white;
+    background: linear-gradient(to right, var(--color-gold-primary), var(--color-gold-dark));
+    color: #ffffff;
     border: none;
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
-    font-size: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-    width: fit-content; /* se ajusta al contenido */
-    align-self: center; /* centramos el botón */
-    text-align: center;
-    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition-smooth);
 }
 
 .btn-primary:hover {
-    background-color: #248C88;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-.btn-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+/* Multi-select Dropdown */
+.multi-select-dropdown {
+    position: relative;
+    width: 100%;
 }
 
-/* OVERLAY DE CARGA (mismo que en admin-styles) */
+.multi-select-dropdown-header {
+    background: rgba(0, 0, 0, 0.1);;
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: var(--color-silver-dark);
+}
+
+.multi-select-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    background: var(--color-black-soft);
+    border: 2px solid var(--color-silver-dark);
+    color: #000000;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 10;
+}
+
+.multi-select-dropdown-list.show {
+    display: block;
+}
+
+.multi-select-dropdown-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.multi-select-dropdown-item:hover {
+    background: rgba(11, 170, 149, 0.2);
+}
+
+.multi-select-dropdown-item.selected {
+    background: rgba(11, 170, 149, 0.2);
+    color: var(--color-silver-dark);
+}
+
+.selected-users-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.selected-user-tag {
+    background: rgba(11, 170, 149, 0.2);
+    color: var(--color-silver-dark);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.selected-user-tag-remove {
+    cursor: pointer;
+    color: #000000;
+}
+
+
+/* LOADING OVERLAY & TOAST */
 .loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 1000;
 }
 
 .spinner {
-    width: 50px;
-    height: 50px;
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #2DA59E;
+    width: 60px;
+    height: 60px;
+    border: 6px solid var(--color-silver-light);
+    border-top: 6px solid var(--color-gold-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
 }
 
 @keyframes spin {
@@ -249,42 +312,246 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* TOAST DE NOTIFICACIÓN */
 .toast {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background-color: #2DA59E;
-    color: #fff;
+    background: linear-gradient(to right, var(--color-gold-primary), var(--color-gold-dark));
+    color: var(--color-black-deep);
     padding: 1rem 1.5rem;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     z-index: 1000;
 }
 
-.show-toast {
-    opacity: 1;
-    transform: translateY(0);
+/* MOBILE & TABLET RESPONSIVENESS */
+@media screen and (max-width: 1024px) {
+    .download-container {
+        flex-direction: row; 
+    }
+
+    .sidebar {
+        width: 80px; 
+        min-width: 80px; 
+        border-right: 1px solid var(--color-gold-primary);
+        border-bottom: none;
+        padding: 1rem 0.5rem;
+    }
+
+    .sidebar h2 {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .sidebar nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .sidebar button {
+        padding: 0.5rem;
+        justify-content: center;
+        max-width: 70px;
+        text-align: center;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .sidebar-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .admin-header {
+        padding: 0.75rem;
+    }
+
+    .admin-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .download-content {
+        padding: 1rem;
+    }
+
+    .date-range {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .download-form {
+        padding: 1.25rem;
+    }
 }
 
-/* RESPONSIVIDAD */
-@media (max-width: 768px) {
-    .download-container {
-        flex-direction: column;
-        height: auto;
-    }
+/* For smaller devices (mobile) */
+@media screen and (max-width: 600px) {
     .sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
+        width: 70px;
+        min-width: 70px;
     }
-    .admin-header {
-        margin-bottom: 1rem;
+
+    .sidebar h2 {
+        font-size: 0.8rem;
     }
+
+    .sidebar button {
+        font-size: 0.7rem;
+        padding: 0.4rem;
+    }
+
     .download-form {
         padding: 1rem;
+    }
+
+    .download-section h2 {
+        font-size: 1.25rem;
+    }
+
+    .admin-header h1 {
+        font-size: 1.1rem;
+    }
+
+    .btn-logout {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Styles for dates in download-panel.css (similar to user-panel) */
+.date-range {
+    display: flex;
+    gap: 15px; /* Space between the two date blocks */
+    margin-bottom: 20px; /* Space below date fields */
+    width: 100%; /* Ensures it occupies the width of the container */
+}
+
+.date-field {
+    flex: 1; /* Allows both date blocks to grow equally */
+}
+
+.date-field label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--color-gold-primary);
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.date-separate {
+    display: flex;
+    gap: 5px; /* Space between day, month, and year */
+    width: 100%;
+}
+
+.date-input {
+    flex: 1;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--color-silver-dark);
+    box-sizing: border-box; /* Important for handling padding and border */
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: var(--color-gold-primary); /* Using your primary color */
+    box-shadow: 0 0 5px rgba(45, 165, 158, 0.5); /* Shadow similar to focus */
+}
+
+/* NEW STYLE FOR MONTH SELECT THAT LOOKS LIKE INPUTS */
+.custom-month-select {
+    position: relative;
+    flex: 2;
+}
+
+/* Make the month button look like day and year inputs */
+.custom-month-trigger {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--color-silver-dark);
+    text-align: left;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+
+}
+
+.custom-month-trigger:focus,
+.custom-month-trigger:active {
+    outline: none;
+    border-color: var(--color-gold-primary);
+    box-shadow: 0 0 5px rgba(45, 165, 158, 0.5);
+}
+
+/* Add an arrow icon to indicate it's a dropdown */
+.custom-month-trigger::after {
+    content: "▼";
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.custom-month-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 2px solid var(--color-silver-dark);
+    border-radius: 0 0 8px 8px;
+    z-index: 10;
+    display: none;
+    overflow-y: auto;
+    max-height: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-month-dropdown.open {
+    display: block;
+}
+
+.custom-month-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    font-size: 1em;
+    color: var(--color-silver-dark);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.custom-month-dropdown button:hover {
+    background-color: rgba(45, 165, 158, 0.2);
+}
+
+/* Remove the margin that was causing problems */
+#selectedFinMes {
+    margin-left: 0;
+}
+
+/* Responsiveness for date fields */
+@media screen and (max-width: 768px) {
+    .date-separate {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .date-input, 
+    .custom-month-trigger {
+        width: 100%;
     }
 }
