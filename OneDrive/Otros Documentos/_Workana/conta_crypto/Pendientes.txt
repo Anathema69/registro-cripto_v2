@@ -1,0 +1,33 @@
+Positivo: Vamos por buen camino
+
+- Número de cuenta
+- Número de identificación
+- No es necesario fecha de nacimiento, cambiarlo a caja de dirección. 
+
+
+Corregir los tamaños
+Operaciones: Corregir Monto-> Precio
+Total: Agregar sumando la comisión.
+
+
+Paso 4: La cuenta de origen, quitar 'estado' Agregar, método de pago usado. La fecha moverla al primer paso indicando 'fecha de operación (cuándo se hizo el pago)'
+
+Historial, fecha usuario -> Fecha de operación 
+Agregar función de modificar y/o eliminar
+Poder buscar y filtrar a otro usuario con el que hice operaciones
+
+Eliminar la fecha de registro, cuenta de destino.
+Agregar nombre del cliente con el que negocié, número de la operación.
+
+Para Admin:
+- Agregar opción, de ver clientes
+- La fecha filtro debe ser la fecha de operación de cuándo se hizo el pago. 
+- Agregar el historial de operaciones dónde se puede ver uno o más clientes
+- Fecha que sea opcional, como un filtro adicional
+
+- Diseñar para que del lado del Admin puede descargar las operaciones que hizo el usuario A con el usuario B
+
+Update (pt 2 del proyecto): 
+- Sugerencias de datos cargados anteriormente para clientes frecuentes. En al menos los pasos 2 y 3.
+- Pensar en un programa de pago para que sea por suscripción, para pagos anual o mensual
+- Subir un Excel importando la información. 
